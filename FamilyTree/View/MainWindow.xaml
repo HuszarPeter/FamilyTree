@@ -1,0 +1,21 @@
+﻿<Window x:Class="FamilyTree.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:view="clr-namespace:FamilyTree.View"
+        Title="MainWindow" Height="600" Width="600"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <!--<TabControl TabStripPlacement="Left"
+                    SelectedIndex="2">
+            <TabItem Header="Tree">
+                
+            </TabItem>
+            <TabItem Header="Events">
+                
+            </TabItem>
+            <TabItem Header="List">-->
+                <view:PeopleListView DataContext="{Binding}" />
+            <!--</TabItem>
+        </TabControl>-->
+    </Grid>
+</Window>
