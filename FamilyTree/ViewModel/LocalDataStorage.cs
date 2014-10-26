@@ -82,11 +82,5 @@ namespace FamilyTree.ViewModel
 
             return result1.Union(result2).ToList();
         }
-
-        async Task<List<Relation>> DownloadRelations(DataContext context)
-        {
-            return context.GetAllRelations().Select(r => r.ConvertToViewRelation(Persons)).ToList();
-        }
-
     }
 }

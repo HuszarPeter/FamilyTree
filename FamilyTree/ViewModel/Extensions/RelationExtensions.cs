@@ -23,24 +23,6 @@ namespace FamilyTree.ViewModel.Extensions
             return result;
         }
 
-        public static Relation ConvertToViewRelation(this Dal.Model.Relation r, IEnumerable<Person> persons )
-        {
-            var result = new Relation
-            {
-                Person = persons.FirstOrDefault(p => p.Id == r.ChildId),
-                RelationType = r.RelationType
-            };
-            var rootPerson = persons.FirstOrDefault(p => p.Id == r.ParentId);
-            rootPerson.Relations.Add(result);
-
-            result.Person.Relations.Add(new Relation
-            {
-                Person = rootPerson,
-                RelationType = r.RelationType.GetReverseType(),
-            });
-            return result;
-        }
-
         public static RelationType GetReverseType(this RelationType rt)
         {
             if(rt == RelationType.Child)
