@@ -69,28 +69,29 @@
     </UserControl.Resources> 
     <Grid ShowGridLines="False"
           utils:GridUtils.Columns="Auto,*"
-          utils:GridUtils.Rows="Auto,Auto,auto,*">
+          utils:GridUtils.Rows="Auto,*">
         <ContentControl ContentTemplate="{StaticResource PersonPictureTemplate}"
                         Content="{Binding Person}"
-                        Margin="10"
-                        Grid.RowSpan="3"/>
-        
-        <TextBlock Text="{Binding Person, Converter={utils:PersonNameConverter}}" 
-                   FontSize="14"
-                   FontWeight="Bold"
-                   Margin="10,10,10,0"
-                   Grid.Row="0"
-                   Grid.Column="1"/>
-        <TextBlock Text="{Binding Person.DateOfBirth, StringFormat='D'}"
-                   Grid.Column="1"
-                   Grid.Row="1"
-                   Margin="10,0,10,10"/>
+                        Margin="10"/>
+        <Grid Grid.Column="1">
+            <StackPanel Margin="10">
+                <TextBlock Text="{Binding Person, Converter={utils:PersonNameConverter}}" 
+                           FontSize="14"
+                           FontWeight="Bold"
+                           Margin="2"/>
+                <TextBlock Text="{Binding Person.DateOfBirth, StringFormat='D'}"
+                           Margin="2"/>
+                <TextBlock Text="{Binding Person, Converter={utils:PersonNameConverter}, ConverterParameter='b'}"
+                           Margin="2"/>
+            </StackPanel>
+        </Grid>
+
         <ScrollViewer Grid.ColumnSpan="2"
                       Grid.Row="3"
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">
             <Grid utils:GridUtils.Rows="Auto,Auto,*"
-                  utils:GridUtils.Columns="*,*">
+                  utils:GridUtils.Columns="*,Auto">
                 <GroupBox Header="Parents">
                     <ItemsControl ItemsSource="{Binding Parents}"
                               Style="{StaticResource WrappedRelativeItemsControl}"/>

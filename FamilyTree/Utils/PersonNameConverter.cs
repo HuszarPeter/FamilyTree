@@ -22,12 +22,12 @@ namespace FamilyTree.Utils
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Person)
-            {
-                var person = value as Person;
-                return string.Format(Resources.PersonFullNameFormat, person.LastName, person.FirstName);
-            }
-            return value;
+            if (!(value is Person)) return value;
+            
+            var person = value as Person;
+            return (parameter == null)
+                ? string.Format(Resources.PersonFullNameFormat, person.LastName, person.FirstName)
+                : string.Format(Resources.PersonFullNameFormat, person.BirthLastName, person.BirthFirstName);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -26,5 +26,11 @@ namespace FamilyTree.Dal.Model
 
         [DatabaseField(Name="portre")]
         public byte[] ProfilePicture { get; set; }
+
+        [DatabaseField(Name = "leanykori_keresztnev")]
+        public string BirthFirstName { get; set; }
+
+        [DatabaseField(Name = "leanykori_vezeteknev")]
+        public string BirthLastName { get; set; }
     }
 }

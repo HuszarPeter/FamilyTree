@@ -44,6 +44,26 @@ namespace FamilyTree.ViewModel.Model
             }
         }
 
+        public string BirthFirstName
+        {
+            get { return _birthFirstName; }
+            set
+            {
+                _birthFirstName = value; 
+                OnPropertyChanged();
+            }
+        }
+
+        public string BirthLastName
+        {
+            get { return _birthLastName; }
+            set
+            {
+                _birthLastName = value; 
+                OnPropertyChanged();
+            }
+        }
+
         public DateTime DateOfBirth
         {
             get { return _dateOfBirth; }
@@ -89,7 +109,9 @@ namespace FamilyTree.ViewModel.Model
         private DateTime? _dateOfDeath;
         private byte[] _picture;
         private Gender _gender;
-        private ObservableCollection<Relation> _relations; 
+        private ObservableCollection<Relation> _relations;
+        private string _birthFirstName;
+        private string _birthLastName;
 
         public ObservableCollection<Person> Childs
         {

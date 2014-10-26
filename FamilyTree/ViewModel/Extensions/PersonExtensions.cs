@@ -16,6 +16,8 @@ namespace FamilyTree.ViewModel.Extensions
                 Id = p.Id,
                 FirstName = p.FirstName,
                 LastName = p.LastName,
+                BirthFirstName = p.BirthFirstName,
+                BirthLastName = p.BirthLastName,
                 DateOfBirth = p.DateOfBirth,
                 DateOfDeath = p.DateOfDeath,
                 Picture = p.ProfilePicture,
