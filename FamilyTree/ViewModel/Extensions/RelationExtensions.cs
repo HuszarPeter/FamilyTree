@@ -11,6 +11,18 @@ namespace FamilyTree.ViewModel.Extensions
 {
     public static class RelationExtensions
     {
+        public static Relation ConvertToViewRelation(this Dal.Model.Relation r, Func<int, Person> findPersonFunc )
+        {
+            var result = new Relation
+            {
+                SourcePerson = findPersonFunc(r.ParentId),
+                DestinationPerson = findPersonFunc(r.ChildId),
+                RelationType = r.RelationType
+            };
+            
+            return result;
+        }
+
         public static Relation ConvertToViewRelation(this Dal.Model.Relation r, IEnumerable<Person> persons )
         {
             var result = new Relation
@@ -29,7 +41,7 @@ namespace FamilyTree.ViewModel.Extensions
             return result;
         }
 
-        private static RelationType GetReverseType(this RelationType rt)
+        public static RelationType GetReverseType(this RelationType rt)
         {
             if(rt == RelationType.Child)
                 return RelationType.Parent;

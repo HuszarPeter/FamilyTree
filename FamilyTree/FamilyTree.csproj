@@ -82,8 +82,10 @@
     <Compile Include="Utils\PersonPictureConverter.cs" />
     <Compile Include="ViewModel\Extensions\PersonExtensions.cs" />
     <Compile Include="ViewModel\Extensions\RelationExtensions.cs" />
+    <Compile Include="ViewModel\LocalDataStorage.cs" />
     <Compile Include="ViewModel\Model\Person.cs" />
     <Compile Include="ViewModel\Model\Relation.cs" />
+    <Compile Include="ViewModel\PersonViewModel.cs" />
     <Compile Include="View\PedigreeView.xaml.cs">
       <DependentUpon>PedigreeView.xaml</DependentUpon>
     </Compile>

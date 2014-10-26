@@ -10,13 +10,18 @@ namespace FamilyTree.ViewModel.Model
 {
     public class Relation : ModelBase
     {
-        public Person Person { get; set; }
+        public Person SourcePerson { get; set; }
+
+        public Person DestinationPerson { get; set; }
 
         public RelationType RelationType { get; set; }
 
+        [Obsolete]
+        public Person Person { get; set; }
+
         public override string ToString()
         {
-            return string.Format("{0} - {1}", Person, RelationType);
+            return string.Format("{0} -> {1} | ({2})", SourcePerson, DestinationPerson, RelationType);
         }
     }
 }

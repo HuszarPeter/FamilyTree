@@ -37,62 +37,77 @@
                          Stroke="#474747" />
             </Grid>
         </DataTemplate>
+        
+        <DataTemplate x:Key="RelatedPersonTemplate" DataType="model:Person">
+            <Grid Margin="3"
+                  utils:GridUtils.Rows="Auto,Auto">
+                <ContentControl ContentTemplate="{StaticResource PersonPictureTemplate}"
+                                Content="{Binding }" >
+                    <ContentControl.LayoutTransform>
+                        <ScaleTransform ScaleX="0.5"
+                                        ScaleY="0.5" />
+                    </ContentControl.LayoutTransform>
+                </ContentControl>
+                <TextBlock Text="{Binding ., Converter={utils:PersonNameConverter}}" 
+                           FontSize="10"
+                           Grid.Row="1"/>
+            </Grid>
+        </DataTemplate>
+        
+        <Style x:Key="WrappedRelativeItemsControl" TargetType="ItemsControl">
+            <Setter Property="ItemTemplate" Value="{StaticResource RelatedPersonTemplate}"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
       
     </UserControl.Resources> 
     <Grid ShowGridLines="False"
           utils:GridUtils.Columns="Auto,*"
           utils:GridUtils.Rows="Auto,Auto,auto,*">
         <ContentControl ContentTemplate="{StaticResource PersonPictureTemplate}"
-                        Content="{Binding}"
+                        Content="{Binding Person}"
                         Margin="10"
                         Grid.RowSpan="3"/>
         
-        <TextBlock Text="{Binding ., Converter={utils:PersonNameConverter}}" 
+        <TextBlock Text="{Binding Person, Converter={utils:PersonNameConverter}}" 
                    FontSize="14"
                    FontWeight="Bold"
                    Margin="10,10,10,0"
                    Grid.Row="0"
                    Grid.Column="1"/>
-        <TextBlock Text="{Binding DateOfBirth, StringFormat='D'}"
+        <TextBlock Text="{Binding Person.DateOfBirth, StringFormat='D'}"
                    Grid.Column="1"
                    Grid.Row="1"
                    Margin="10,0,10,10"/>
-       <Grid Grid.ColumnSpan="2"
-             Grid.Row="3">
-           <ItemsControl ItemsSource="{Binding Source={StaticResource personRelations}}">
-               <ItemsControl.GroupStyle>
-                   <GroupStyle>
-                       <GroupStyle.Panel>
-                           <ItemsPanelTemplate>
-                               <StackPanel Margin="5"/>
-                           </ItemsPanelTemplate>
-                       </GroupStyle.Panel>
-                   </GroupStyle>
-               </ItemsControl.GroupStyle>
-               <ItemsControl.ItemsPanel>
-                   <ItemsPanelTemplate>
-                        <WrapPanel Margin="5"/>
-                   </ItemsPanelTemplate>
-               </ItemsControl.ItemsPanel>
-               <ItemsControl.ItemTemplate>
-                   <DataTemplate DataType="model:Relation">
-                       <Grid utils:GridUtils.Rows="Auto,Auto"
-                             Margin="5">
-                        <ContentControl ContentTemplate="{StaticResource PersonPictureTemplate}"
-                                      Content="{Binding Person}">
-                            <ContentControl.LayoutTransform>
-                                <ScaleTransform ScaleX="0.5"
-                                                ScaleY="0.5" />
-                            </ContentControl.LayoutTransform>
-                        </ContentControl>
-                           <TextBlock Text="{Binding Person, Converter={utils:PersonNameConverter}}"
-                                      FontSize="10"
-                                      Grid.Row="1"/>
-                        </Grid>
-                    </DataTemplate>
-               </ItemsControl.ItemTemplate>
-           </ItemsControl>
-           
-       </Grid> 
+        <ScrollViewer Grid.ColumnSpan="2"
+                      Grid.Row="3"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <Grid utils:GridUtils.Rows="Auto,Auto,*"
+                  utils:GridUtils.Columns="*,*">
+                <GroupBox Header="Parents">
+                    <ItemsControl ItemsSource="{Binding Parents}"
+                              Style="{StaticResource WrappedRelativeItemsControl}"/>
+                </GroupBox>
+
+                <GroupBox Header="Spouse" Grid.Column="1">
+                    <ItemsControl ItemsSource="{Binding Spouses}"
+                         Style="{StaticResource WrappedRelativeItemsControl}"/>
+                </GroupBox>
+
+                <GroupBox Header="Childs" 
+                      Grid.ColumnSpan="2"
+                      Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding Childs}"
+                         Style="{StaticResource WrappedRelativeItemsControl}"/>
+                </GroupBox>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

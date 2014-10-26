@@ -18,7 +18,7 @@
    </UserControl.Resources> 
     <Grid utils:GridUtils.Columns="3*,3,5*">
         <ListView ItemsSource="{Binding Source={StaticResource orderedPersons}}"
-                  SelectedItem="{Binding SelectedPerson}">
+                  SelectedItem="{Binding SelectedPersonViewModel.Person}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Név" DisplayMemberBinding="{Binding ., Converter={utils:PersonNameConverter}}" />
@@ -29,6 +29,6 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch" />
         <view:PersonDetails Grid.Column="2" 
-                            DataContext="{Binding SelectedPerson}" />
+                            DataContext="{Binding SelectedPersonViewModel}" />
     </Grid>
 </UserControl>
