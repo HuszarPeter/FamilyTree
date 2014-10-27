@@ -14,7 +14,7 @@ namespace FamilyTree.ViewModel.Model
         private int _id;
         private string _firstName;
         private string _lastName;
-        private DateTime _dateOfBirth;
+        private DateTime? _dateOfBirth;
         private DateTime? _dateOfDeath;
         private byte[] _picture;
         private Gender _gender;
@@ -71,7 +71,7 @@ namespace FamilyTree.ViewModel.Model
             }
         }
 
-        public DateTime DateOfBirth
+        public DateTime? DateOfBirth
         {
             get { return _dateOfBirth; }
             set
@@ -111,14 +111,16 @@ namespace FamilyTree.ViewModel.Model
             }
         }
 
-        public long Age
+        public long? Age
         {
             get
             {
+                if (!DateOfBirth.HasValue) return null;
+
                 var now = DateOfDeath.HasValue
                     ? new LocalDate(DateOfDeath.Value.Year, DateOfDeath.Value.Month, DateOfDeath.Value.Day) 
                     : new LocalDate(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-                var birth = new LocalDate(DateOfBirth.Year, DateOfBirth.Month, DateOfBirth.Day);
+                var birth = new LocalDate(DateOfBirth.Value.Year, DateOfBirth.Value.Month, DateOfBirth.Value.Day);
                 var p = Period.Between(birth, now, PeriodUnits.Years);
 
                 return p.Years;

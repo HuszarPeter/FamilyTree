@@ -40,6 +40,8 @@ namespace FamilyTree.ViewModel
 
         public async void DownloadData()
         {
+            Persons.Clear();
+            Relations.Clear();
             using (var context = new DataContext())
             {
                 var pp = await DownloadPersonsAsync(context);

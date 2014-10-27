@@ -5,23 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:utils="clr-namespace:FamilyTree.Utils"
              xmlns:model="clr-namespace:FamilyTree.ViewModel.Model"
-             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <CollectionViewSource x:Key="personRelations" Source="{Binding Relations}">
-            <CollectionViewSource.SortDescriptions>
-                <componentModel:SortDescription PropertyName="Person.DateOfBirth" />
-            </CollectionViewSource.SortDescriptions>
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="RelationType" />
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
         <DataTemplate x:Key="PersonPictureTemplate" DataType="model:Person">
-            <Grid>
+            <Grid Width="100"
+                  Height="100">
                 <Image Source="{Binding ., Converter={utils:PersonPictureConverter}}"
-                       Width="100"
-                       Height="100"
                        Stretch="UniformToFill"
                        StretchDirection="Both"
                        RenderOptions.BitmapScalingMode="HighQuality">
@@ -32,16 +22,35 @@
                     </Image.Clip>
                 </Image>
                 <Ellipse StrokeThickness="3"
-                         Width="100"
-                         Height="100"
                          Stroke="#474747" />
+                <Image Visibility="{Binding ., Converter={utils:PersonSkullConverter}}" 
+                       Source="/FamilyTree;component/Res/skull-48.png"
+                       Width="30"
+                       Height="30"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Bottom"
+                       RenderOptions.BitmapScalingMode="HighQuality"/>
             </Grid>
         </DataTemplate>
+        
+        <DataTemplate x:Key="ClickablePersonPictureTemplate" DataType="model:Person">
+            <Button Command="{Binding DataContext.SelectPersonCommand, ElementName=RootGrid}"
+                    CommandParameter="{Binding}"
+                    Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate>
+                        <ContentControl Content="{Binding }"
+                                        ContentTemplate="{StaticResource PersonPictureTemplate}"></ContentControl>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </DataTemplate>
+        
         
         <DataTemplate x:Key="RelatedPersonTemplate" DataType="model:Person">
             <Grid Margin="3"
                   utils:GridUtils.Rows="Auto,Auto">
-                <ContentControl ContentTemplate="{StaticResource PersonPictureTemplate}"
+                <ContentControl ContentTemplate="{StaticResource ClickablePersonPictureTemplate}"
                                 Content="{Binding }" >
                     <ContentControl.LayoutTransform>
                         <ScaleTransform ScaleX="0.5"
@@ -67,7 +76,7 @@
         </Style>
       
     </UserControl.Resources> 
-    <Grid ShowGridLines="False"
+    <Grid x:Name="RootGrid" ShowGridLines="False"
           utils:GridUtils.Columns="Auto,*"
           utils:GridUtils.Rows="Auto,*">
         <ContentControl ContentTemplate="{StaticResource PersonPictureTemplate}"
@@ -121,6 +130,7 @@
                     <ItemsControl ItemsSource="{Binding Childs}"
                          Style="{StaticResource WrappedRelativeItemsControl}"/>
                 </GroupBox>
+                
             </Grid>
         </ScrollViewer>
     </Grid>

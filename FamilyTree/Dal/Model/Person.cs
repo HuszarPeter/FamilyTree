@@ -16,7 +16,7 @@ namespace FamilyTree.Dal.Model
         public string LastName { get; set; }
 
         [DatabaseField(Name = "szuletes_ideje")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [DatabaseField(Name = "halalozas_ideje")]
         public DateTime? DateOfDeath { get; set; }

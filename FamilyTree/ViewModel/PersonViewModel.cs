@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using FamilyTree.Dal.Model;
 using FamilyTree.Utils;
 using Person = FamilyTree.ViewModel.Model.Person;
@@ -12,7 +13,6 @@ namespace FamilyTree.ViewModel
     public class PersonViewModel : ModelBase
     {
         private Person _person;
-
         public Person Person
         {
             get { return _person; }
@@ -27,13 +27,36 @@ namespace FamilyTree.ViewModel
             }
         }
 
+        private ICommand _selectPersonCommand;
+        public ICommand SelectPersonCommand
+        {
+            get
+            {
+                return _selectPersonCommand ??
+                       (_selectPersonCommand = new ActionCommand(this, SelectAnotherPerson, null));
+            }
+        }
+
+        private void SelectAnotherPerson(Object param)
+        {
+            var p = param as Person;
+            if(p == null) return;
+            Person = p;
+        }
+
         public IEnumerable<Person> Childs
         {
             get { return GetRelativesByType(RelationType.Child); }
         }
 
         public IEnumerable<Person> Parents {
-            get { return GetRelativesByType(RelationType.Parent); }
+            get
+            {
+                // direct parents
+                var result = GetRelativesByType(RelationType.Parent);
+                // parents of siblings
+                return result;
+            }
         }
 
         public IEnumerable<Person> Spouses

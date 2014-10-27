@@ -49,6 +49,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>deciduous_tree-48.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.9.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="NodaTime">
@@ -80,9 +83,11 @@
     <Compile Include="Dal\DatabaseFieldAttribute.cs" />
     <Compile Include="Dal\DataContext.cs" />
     <Compile Include="Dal\Model\Relation.cs" />
+    <Compile Include="Utils\ActionCommand.cs" />
     <Compile Include="Utils\GridUtils.cs" />
     <Compile Include="Utils\PersonNameConverter.cs" />
     <Compile Include="Utils\PersonPictureConverter.cs" />
+    <Compile Include="Utils\PersonSkullConverter.cs" />
     <Compile Include="ViewModel\Extensions\PersonExtensions.cs" />
     <Compile Include="ViewModel\Extensions\RelationExtensions.cs" />
     <Compile Include="ViewModel\LocalDataStorage.cs" />
@@ -176,6 +181,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Res\male.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\skull-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="deciduous_tree-48.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\deciduous_tree-48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
