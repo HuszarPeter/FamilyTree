@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:view="clr-namespace:FamilyTree.View"
         xmlns:utils="clr-namespace:FamilyTree.Utils"
-        Title="MainWindow" Height="600" Width="600"
+        Title="Family tree" Height="600" Width="600"
         WindowStartupLocation="CenterScreen" Icon="/FamilyTree;component/Res/deciduous_tree-48.png">
     <Window.InputBindings>
         <KeyBinding Command="{Binding RefreshCommand}" Key="F5"/>
