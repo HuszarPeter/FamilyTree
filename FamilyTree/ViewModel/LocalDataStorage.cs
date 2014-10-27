@@ -6,9 +6,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using FamilyTree.Dal;
+using FamilyTree.Dal.Model;
 using FamilyTree.Utils;
 using FamilyTree.ViewModel.Extensions;
-using FamilyTree.ViewModel.Model;
+using Person = FamilyTree.ViewModel.Model.Person;
+using Relation = FamilyTree.ViewModel.Model.Relation;
 
 namespace FamilyTree.ViewModel
 {
@@ -62,25 +64,13 @@ namespace FamilyTree.ViewModel
             var result2 = new List<Relation>();
             result1.ForEach(relation =>
             {
-                if (
-                    result2.FirstOrDefault(
-                        e =>
-                            e.SourcePerson.Id == relation.DestinationPerson.Id &&
-                            e.DestinationPerson.Id == relation.SourcePerson.Id &&
-                            e.RelationType == relation.RelationType.GetReverseType()) == null)
+                if (!result1.IsReverseRelationExists(relation))
                 {
-                    // no relation found, insert the other end into result2!
-                    result2.Add(new Relation
-                    {
-                        SourcePerson = relation.DestinationPerson,
-                        DestinationPerson = relation.SourcePerson,
-                        RelationType = relation.RelationType.GetReverseType()
-                    });
-
+                    result2.Add(relation.GetReverseRelation());
                 }
             });
 
-            return result1.Union(result2).ToList();
+            return result1.Union(result2).Distinct().ToList();
         }
     }
 }

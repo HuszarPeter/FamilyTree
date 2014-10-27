@@ -23,6 +23,7 @@ namespace FamilyTree.ViewModel
                 OnPropertyChanged("Childs");
                 OnPropertyChanged("Parents");
                 OnPropertyChanged("Spouses");
+                OnPropertyChanged("Siblings");
             }
         }
 
@@ -38,7 +39,12 @@ namespace FamilyTree.ViewModel
         public IEnumerable<Person> Spouses
         {
             get { return GetRelativesByType(RelationType.Spouse); }
-        } 
+        }
+
+        public IEnumerable<Person> Siblings
+        {
+            get { return GetRelativesByType(RelationType.Sibling); }
+        }
 
         private IEnumerable<Person> GetRelativesByType(RelationType t)
         {

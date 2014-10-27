@@ -5,14 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FamilyTree.Utils;
+using NodaTime;
 
 namespace FamilyTree.ViewModel.Model
 {
-    public class Person : ModelBase
+    public class Person : ModelBase, IEquatable<Person>
     {
         private int _id;
         private string _firstName;
         private string _lastName;
+        private DateTime _dateOfBirth;
+        private DateTime? _dateOfDeath;
+        private byte[] _picture;
+        private Gender _gender;
+        private string _birthFirstName;
+        private string _birthLastName;
 
         public int Id
         {
@@ -104,24 +111,46 @@ namespace FamilyTree.ViewModel.Model
             }
         }
 
-        private ObservableCollection<Person> _childs;
-        private DateTime _dateOfBirth;
-        private DateTime? _dateOfDeath;
-        private byte[] _picture;
-        private Gender _gender;
-        private ObservableCollection<Relation> _relations;
-        private string _birthFirstName;
-        private string _birthLastName;
-
-        public ObservableCollection<Person> Childs
+        public long Age
         {
-            get { return _childs ?? (_childs = new ObservableCollection<Person>()); }
+            get
+            {
+                var now = new LocalDate(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                var birth = new LocalDate(DateOfBirth.Year, DateOfBirth.Month, DateOfBirth.Day);
+                var p = Period.Between(birth, now, PeriodUnits.Years);
+
+                return p.Years;
+            }
         }
 
-        
-        public ObservableCollection<Relation> Relations
+        public bool Equals(Person other)
         {
-            get { return _relations ?? (_relations = new ObservableCollection<Relation>()); }
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return _id == other._id;
+        }
+
+        public override int GetHashCode()
+        {
+            return _id;
+        }
+
+        public static bool operator ==(Person left, Person right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(Person left, Person right)
+        {
+            return !Equals(left, right);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Person) obj);
         }
 
         public override string ToString()
@@ -129,7 +158,6 @@ namespace FamilyTree.ViewModel.Model
             return string.Format("{0} {1}", FirstName, LastName);
         }
     }
-
 
     public enum Gender
     {

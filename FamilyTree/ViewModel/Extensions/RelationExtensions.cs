@@ -23,13 +23,32 @@ namespace FamilyTree.ViewModel.Extensions
             return result;
         }
 
+        public static bool IsReverseRelationExists(this List<Relation> relations, Relation relation)
+        {
+            return
+                relations.FirstOrDefault(
+                    r =>
+                        r.SourcePerson == relation.DestinationPerson && r.DestinationPerson == relation.SourcePerson &&
+                        r.RelationType == relation.RelationType.GetReverseType()) != null;
+        }
+
+        public static Relation GetReverseRelation(this Relation relation)
+        {
+            return new Relation
+            {
+                SourcePerson = relation.DestinationPerson,
+                DestinationPerson = relation.SourcePerson,
+                RelationType = relation.RelationType.GetReverseType()
+            };
+        }
+
         public static RelationType GetReverseType(this RelationType rt)
         {
             if(rt == RelationType.Child)
                 return RelationType.Parent;
             if(rt == RelationType.Parent)
                 return RelationType.Child;
-            return RelationType.Spouse;
+            return rt;
         }
     }
 }

@@ -27,5 +27,6 @@ namespace FamilyTree.Dal.Model
         Child = 1,
         Spouse = 2,
         Parent = 3,
+        Sibling = 4,
     }
 }
