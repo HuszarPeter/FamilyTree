@@ -79,8 +79,14 @@
                            FontSize="14"
                            FontWeight="Bold"
                            Margin="2"/>
-                <TextBlock Text="{Binding Person.DateOfBirth, StringFormat='D'}"
-                           Margin="2"/>
+                <TextBlock Margin="2">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0:D} - {1:D}">
+                            <Binding Path="Person.DateOfBirth"/>
+                            <Binding Path="Person.DateOfDeath"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <TextBlock Text="{Binding Person, Converter={utils:PersonNameConverter}, ConverterParameter='b'}"
                            Margin="2"/>
             </StackPanel>

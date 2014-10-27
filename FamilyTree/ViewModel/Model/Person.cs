@@ -115,7 +115,9 @@ namespace FamilyTree.ViewModel.Model
         {
             get
             {
-                var now = new LocalDate(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                var now = DateOfDeath.HasValue
+                    ? new LocalDate(DateOfDeath.Value.Year, DateOfDeath.Value.Month, DateOfDeath.Value.Day) 
+                    : new LocalDate(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
                 var birth = new LocalDate(DateOfBirth.Year, DateOfBirth.Month, DateOfBirth.Day);
                 var p = Period.Between(birth, now, PeriodUnits.Years);
 
