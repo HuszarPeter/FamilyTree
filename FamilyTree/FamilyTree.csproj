@@ -84,6 +84,7 @@
     <Compile Include="Dal\DataContext.cs" />
     <Compile Include="Dal\Model\Relation.cs" />
     <Compile Include="Utils\ActionCommand.cs" />
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\GridUtils.cs" />
     <Compile Include="Utils\PersonNameConverter.cs" />
     <Compile Include="Utils\PersonPictureConverter.cs" />

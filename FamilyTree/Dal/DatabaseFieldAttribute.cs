@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace FamilyTree.Dal
 {
@@ -10,5 +7,14 @@ namespace FamilyTree.Dal
     public class DatabaseFieldAttribute : Attribute
     {
         public string Name { get; set; }
+
+        public bool IsPrimaryKey { get; set; }
+    }
+
+    public class PropertyMappedDatabaseField
+    {
+        public PropertyInfo PropertyInfo { get; set; }
+
+        public DatabaseFieldAttribute DatabaseFieldAttribute { get; set; }
     }
 }

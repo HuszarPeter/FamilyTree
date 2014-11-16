@@ -4,9 +4,10 @@ using FamilyTree.Utils;
 
 namespace FamilyTree.Dal.Model
 {
+    [DatabaseTable(Name = "szemely")]
     public class Person
     {
-        [DatabaseField(Name = "szemely_id")]
+        [DatabaseField(Name = "szemely_id", IsPrimaryKey = true)]
         public int Id { get; set; }
 
         [DatabaseField(Name = "keresztnev")]
