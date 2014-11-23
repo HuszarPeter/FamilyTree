@@ -127,4 +127,22 @@
   <data name="MenuItemHeaderGoTo" xml:space="preserve">
     <value>Goto...</value>
   </data>
+  <data name="RootMenuHeader" xml:space="preserve">
+    <value>Family Tree</value>
+  </data>
+  <data name="MenuItemRefreshHeader" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="MenuItemAddHeader" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="MenuItemAddSiblingHeader" xml:space="preserve">
+    <value>Sibling</value>
+  </data>
+  <data name="MenuItemAddChildHeader" xml:space="preserve">
+    <value>Child</value>
+  </data>
+  <data name="MenuItemExitHeader" xml:space="preserve">
+    <value>Exit</value>
+  </data>
 </root>

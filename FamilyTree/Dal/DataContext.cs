@@ -189,6 +189,15 @@ namespace FamilyTree.Dal
             return ExecuteQuery<Relation>("SELECT * FROM kapcsolat");
         }
 
+        public void AddRelation(Relation relation)
+        {
+            Insert(relation);
+        }
+
+        public void UpdateRelation(Relation relation)
+        {
+            Update(relation);
+        }
         #endregion
         
         public void Dispose()

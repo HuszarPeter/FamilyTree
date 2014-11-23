@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using FamilyTree.ViewModel;
 
 namespace FamilyTree.View
@@ -23,5 +25,6 @@ namespace FamilyTree.View
                 _Model.DownloadData();
             };
         }
+
     }
 }

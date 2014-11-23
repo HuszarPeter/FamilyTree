@@ -88,5 +88,45 @@ namespace FamilyTree.ViewModel
             relationsToRemove
                 .ForEach(relation => Relations.Remove(relation));
         }
+
+        public void AddChild(Person person, Person child)
+        {
+            using (var context = new DataContext())
+            {
+                if (Persons.FirstOrDefault(p => p == child) == null)
+                {
+                    Persons.Add(child);
+                    var dalPerson = child.ConvertToDalPerson();
+                    context.AddPerson(dalPerson);
+                    child.Id = dalPerson.Id;
+                }
+
+                var personToChild = new Relation
+                {
+                    SourcePerson = person,
+                    DestinationPerson = child,
+                    RelationType = RelationType.Child
+                };
+                var childToPerson = new Relation
+                {
+                    SourcePerson = child,
+                    DestinationPerson = person,
+                    RelationType = RelationType.Parent
+                };
+
+                if (Relations.FirstOrDefault(r => r == personToChild) == null)
+                {
+                    Relations.Add(personToChild);
+                    var dalRelation = personToChild.ConvertToDalRelation();
+                    context.AddRelation(dalRelation);
+                }
+
+                if (Relations.FirstOrDefault(r => r == childToPerson) == null)
+                {
+                    Relations.Add(childToPerson);
+                    context.AddRelation(childToPerson.ConvertToDalRelation());
+                }
+            }
+        }
     }
 }

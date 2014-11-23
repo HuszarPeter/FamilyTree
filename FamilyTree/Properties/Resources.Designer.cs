@@ -61,6 +61,42 @@ namespace FamilyTree.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Child.
+        /// </summary>
+        public static string MenuItemAddChildHeader {
+            get {
+                return ResourceManager.GetString("MenuItemAddChildHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string MenuItemAddHeader {
+            get {
+                return ResourceManager.GetString("MenuItemAddHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sibling.
+        /// </summary>
+        public static string MenuItemAddSiblingHeader {
+            get {
+                return ResourceManager.GetString("MenuItemAddSiblingHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string MenuItemExitHeader {
+            get {
+                return ResourceManager.GetString("MenuItemExitHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Goto....
         /// </summary>
         public static string MenuItemHeaderGoTo {
@@ -79,11 +115,29 @@ namespace FamilyTree.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string MenuItemRefreshHeader {
+            get {
+                return ResourceManager.GetString("MenuItemRefreshHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {1} {0}.
         /// </summary>
         public static string PersonFullNameFormat {
             get {
                 return ResourceManager.GetString("PersonFullNameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Family Tree.
+        /// </summary>
+        public static string RootMenuHeader {
+            get {
+                return ResourceManager.GetString("RootMenuHeader", resourceCulture);
             }
         }
     }

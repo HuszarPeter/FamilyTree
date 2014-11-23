@@ -15,8 +15,8 @@ namespace FamilyTree.ViewModel
 {
     public class MainViewModel : ModelBase
     {
+        #region Refresh Command
         private ICommand _refreshCommand;
-
         public ICommand RefreshCommand
         {
             get { return _refreshCommand ?? (_refreshCommand = new ActionCommand(this, RefreshExecute, null)); }
@@ -24,8 +24,26 @@ namespace FamilyTree.ViewModel
 
         private void RefreshExecute(object obj)
         {
-            DownloadData();        
+            DownloadData();
+        } 
+        #endregion
+
+        #region Add Child Command
+        private ICommand _addChildCommand;
+        public ICommand AddChildCommand
+        {
+            get { return _addChildCommand ?? (_addChildCommand = new ActionCommand(this, AddChildExecute, null)); }
         }
+
+        private void AddChildExecute(object obj)
+        {
+            LocalDataStorage.Instance.AddChild(SelectedPersonViewModel.Person, new Person
+            {
+                FirstName = "Child of",
+                LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName
+            });
+        }
+        #endregion
 
         private readonly PersonViewModel _selectedPersonViewModel = new PersonViewModel();
         public PersonViewModel SelectedPersonViewModel

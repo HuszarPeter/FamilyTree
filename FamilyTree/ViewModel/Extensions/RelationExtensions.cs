@@ -17,10 +17,21 @@ namespace FamilyTree.ViewModel.Extensions
             {
                 SourcePerson = findPersonFunc(r.ParentId),
                 DestinationPerson = findPersonFunc(r.ChildId),
-                RelationType = r.RelationType
+                RelationType = (RelationType)r.RelationType
             };
             
             return result;
+        }
+
+        public static Dal.Model.Relation ConvertToDalRelation(this Relation relation)
+        {
+            return new Dal.Model.Relation
+            {
+                ParentId = relation.SourcePerson.Id,
+                ChildId = relation.DestinationPerson.Id,
+                RelationId = relation.RelationId,
+                RelationType = (int)relation.RelationType
+            };
         }
 
         public static bool IsReverseRelationExists(this List<Relation> relations, Relation relation)

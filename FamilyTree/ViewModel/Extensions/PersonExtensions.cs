@@ -24,5 +24,20 @@ namespace FamilyTree.ViewModel.Extensions
                 Gender = p.IsMale ? Gender.Male : Gender.Female
             };
         }
+
+        public static Dal.Model.Person ConvertToDalPerson(this Person p)
+        {
+            return new Dal.Model.Person
+            {
+                Id = p.Id,
+                BirthFirstName = p.BirthFirstName,
+                BirthLastName = p.BirthLastName,
+                DateOfBirth = p.DateOfBirth,
+                DateOfDeath = p.DateOfDeath,
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                IsMale = p.Gender == Gender.Male,
+            };
+        }
     }
 }

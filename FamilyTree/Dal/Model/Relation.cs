@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace FamilyTree.Dal.Model
 {
+    [DatabaseTable(Name = "kapcsolat")]
     public class Relation
     {
-        [DatabaseField(Name = "kapcsolat_id")]
+        [DatabaseField(Name = "kapcsolat_id", IsPrimaryKey = true)]
         public int RelationId { get; set; }
 
         [DatabaseField(Name = "tipus")]
-        public RelationType RelationType { get; set; }
+        public int RelationType { get; set; }
 
         [DatabaseField(Name = "szemely_id1")]
         public int ParentId { get; set; }

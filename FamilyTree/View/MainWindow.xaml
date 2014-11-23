@@ -3,15 +3,31 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:view="clr-namespace:FamilyTree.View"
         xmlns:utils="clr-namespace:FamilyTree.Utils"
+        xmlns:properties="clr-namespace:FamilyTree.Properties"
         Title="Family tree" Height="600" Width="600"
         WindowStartupLocation="CenterScreen" Icon="/FamilyTree;component/Res/deciduous_tree-48.png">
     <Window.InputBindings>
         <KeyBinding Command="{Binding RefreshCommand}" Key="F5"/>
     </Window.InputBindings>
     <Grid utils:GridUtils.Rows="Auto,*">
-        <ToolBar>
-            <Button Command="{Binding RefreshCommand}">Refresh</Button>
-        </ToolBar>
+        <Menu HorizontalAlignment="Stretch"
+              BorderBrush="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+              BorderThickness="0,0,0,1"
+              Padding="2">
+            <MenuItem Header="{x:Static properties:Resources.RootMenuHeader}">
+                <MenuItem Header="About"/>
+                <MenuItem Header="{x:Static properties:Resources.MenuItemRefreshHeader}"
+                          Command="{Binding RefreshCommand}"/>
+                <Separator/>
+                <MenuItem Header="{x:Static properties:Resources.MenuItemAddHeader}">
+                    <MenuItem Header="{x:Static properties:Resources.MenuItemAddSiblingHeader}"/>
+                    <MenuItem Header="{x:Static properties:Resources.MenuItemAddChildHeader}"
+                              Command="{Binding AddChildCommand}"/>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="{x:Static properties:Resources.MenuItemExitHeader}"/>
+            </MenuItem>
+        </Menu>
         <view:PeopleListView DataContext="{Binding}"
                                 Grid.Row="1"/>
     </Grid>
