@@ -50,7 +50,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid utils:GridUtils.Columns="*,*">
+                        <Grid utils:GridUtils.Columns="4*,3*">
                             <TextBlock Grid.Column="0"
                                        Text="{Binding Key, Converter={utils:AgeKeyToTextConverter}}"
                                        Style="{StaticResource textLabel}"/>

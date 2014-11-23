@@ -45,13 +45,18 @@ namespace FamilyTree.ViewModel
 
         #endregion
 
+        private bool CheckSelectedPerson(object obj)
+        {
+            return SelectedPersonViewModel.Person != null;
+        }
+
         #region Add Father Command
         private ICommand _addFatherCommand;
         public ICommand AddFatherCommand
         {
             get
             {
-                return _addFatherCommand ?? (_addFatherCommand = new ActionCommand(this, AddFatherCommandExecute, null));
+                return _addFatherCommand ?? (_addFatherCommand = new ActionCommand(this, AddFatherCommandExecute, CheckSelectedPerson));
             }
         }
 
@@ -67,7 +72,7 @@ namespace FamilyTree.ViewModel
         {
             get
             {
-                return _addMotherCommand ?? (_addMotherCommand = new ActionCommand(this, AddMotherCommandExecute, null));
+                return _addMotherCommand ?? (_addMotherCommand = new ActionCommand(this, AddMotherCommandExecute, CheckSelectedPerson));
             }
         }
 
@@ -101,7 +106,7 @@ namespace FamilyTree.ViewModel
         private ICommand _addChildCommand;
         public ICommand AddChildCommand
         {
-            get { return _addChildCommand ?? (_addChildCommand = new ActionCommand(this, AddChildExecute, null)); }
+            get { return _addChildCommand ?? (_addChildCommand = new ActionCommand(this, AddChildExecute, CheckSelectedPerson)); }
         }
 
         private void AddChildExecute(object obj)
@@ -122,7 +127,7 @@ namespace FamilyTree.ViewModel
             get
             {
                 return _addSiblingCommand ??
-                       (_addSiblingCommand = new ActionCommand(this, AddSiblingCommandExecute, null));
+                       (_addSiblingCommand = new ActionCommand(this, AddSiblingCommandExecute, CheckSelectedPerson));
             }
         }
 
@@ -145,7 +150,7 @@ namespace FamilyTree.ViewModel
         {
             get
             {
-                return _addSpouseCommand ?? (_addSpouseCommand = new ActionCommand(this, AddSpouseCommandExecute, null));
+                return _addSpouseCommand ?? (_addSpouseCommand = new ActionCommand(this, AddSpouseCommandExecute, CheckSelectedPerson));
             }
         }
 
@@ -171,7 +176,7 @@ namespace FamilyTree.ViewModel
             get
             {
                 return _removeCurrentPersonCommand ??
-                       (_removeCurrentPersonCommand = new ActionCommand(this, RemoveCurrentPersonCommandExecute, null));
+                       (_removeCurrentPersonCommand = new ActionCommand(this, RemoveCurrentPersonCommandExecute, CheckSelectedPerson));
             }
         }
 

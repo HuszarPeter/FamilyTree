@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using System.Windows.Resources;
 using FamilyTree.Dal.Model;
 using FamilyTree.Utils;
@@ -207,9 +208,14 @@ namespace FamilyTree.Dal
 
         public List<GenderStatistic> GetGenderStatistics()
         {
-            var query =
-                "select szemely.ferfi, count(*) as cnt, (select count(*) from szemely) as osszes from szemely group by szemely.ferfi";
-            var result = ExecuteQuery<GenderStatistic>(query);
+            var query = new StringBuilder();
+            query.AppendLine("select true as ferfi, count(*) as cnt, (select count(*) from szemely) as osszes FROM szemely");
+            query.AppendLine("where szemely.ferfi = 1");
+            query.AppendLine("union");
+            query.AppendLine("select false,count(*) as cnt, (select count(*) from szemely) as osszes FROM szemely");
+            query.AppendLine("where szemely.ferfi = 0");
+
+            var result = ExecuteQuery<GenderStatistic>(query.ToString());
             return result;
         }
 
