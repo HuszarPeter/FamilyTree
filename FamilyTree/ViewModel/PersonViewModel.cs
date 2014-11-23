@@ -91,7 +91,7 @@ namespace FamilyTree.ViewModel
                 .Select(r => r.DestinationPerson);
         }
 
-        private void NotifyRelationsChanged()
+        public void NotifyRelationsChanged()
         {
             OnPropertyChanged("Childs");
             OnPropertyChanged("Parents");

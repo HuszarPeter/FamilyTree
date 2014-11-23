@@ -78,18 +78,30 @@ namespace FamilyTree.ViewModel
 
         public void RemoveRelation(Person person, Person person1)
         {
-            var relationsToRemove = Relations
-                .Where(
-                    r =>
-                        (r.SourcePerson == person && r.DestinationPerson == person1) ||
-                        (r.SourcePerson == person1 && r.DestinationPerson == person))
-                .ToList();
+            using (var context = new DataContext())
+            {
+                var relationsToRemove = Relations
+                    .Where(
+                        r =>
+                            (r.SourcePerson == person && r.DestinationPerson == person1) ||
+                            (r.SourcePerson == person1 && r.DestinationPerson == person))
+                    .ToList();
 
-            relationsToRemove
-                .ForEach(relation => Relations.Remove(relation));
+                relationsToRemove
+                    .ForEach(relation =>
+                    {
+                        Relations.Remove(relation);
+                        context.DeleteRelation(relation.ConvertToDalRelation());
+                    });
+            }
         }
 
         public void AddChild(Person person, Person child)
+        {
+            AddNewPersonWithRelation(person, child, RelationType.Child);
+        }
+
+        public void AddNewPersonWithRelation(Person person, Person child, RelationType relationType)
         {
             using (var context = new DataContext())
             {
@@ -105,13 +117,13 @@ namespace FamilyTree.ViewModel
                 {
                     SourcePerson = person,
                     DestinationPerson = child,
-                    RelationType = RelationType.Child
+                    RelationType = relationType
                 };
                 var childToPerson = new Relation
                 {
                     SourcePerson = child,
                     DestinationPerson = person,
-                    RelationType = RelationType.Parent
+                    RelationType = relationType
                 };
 
                 if (Relations.FirstOrDefault(r => r == personToChild) == null)
@@ -119,13 +131,39 @@ namespace FamilyTree.ViewModel
                     Relations.Add(personToChild);
                     var dalRelation = personToChild.ConvertToDalRelation();
                     context.AddRelation(dalRelation);
+                    personToChild.RelationId = dalRelation.RelationId;
                 }
 
                 if (Relations.FirstOrDefault(r => r == childToPerson) == null)
                 {
                     Relations.Add(childToPerson);
-                    context.AddRelation(childToPerson.ConvertToDalRelation());
+                    var dalRelation = childToPerson.ConvertToDalRelation();
+                    context.AddRelation(dalRelation);
+                    childToPerson.RelationId = dalRelation.RelationId;
                 }
+            }
+        }
+
+        public void RemovePerson(Person person)
+        {
+            using (var context = new DataContext())
+            {
+                var relationsToRemove = Relations
+                    .Where(r => r.SourcePerson == person || r.DestinationPerson == person)
+                    .ToList();
+
+                relationsToRemove.ForEach(r =>
+                {
+                    Relations.Remove(r);
+                    context.DeleteRelation(r.ConvertToDalRelation());
+                });
+
+                if (Persons.FirstOrDefault(p => p == person) != null)
+                {
+                    Persons.Remove(person);
+                }
+
+                context.DeletePerson(person.ConvertToDalPerson());
             }
         }
     }

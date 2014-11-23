@@ -145,4 +145,10 @@
   <data name="MenuItemExitHeader" xml:space="preserve">
     <value>Exit</value>
   </data>
+  <data name="MainWindow_AskDeletePerson_Are_you_sure_" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="MainWindow_AskDeletePerson_Delete_" xml:space="preserve">
+    <value>Delete?</value>
+  </data>
 </root>

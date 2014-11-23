@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using FamilyTree.ViewModel;
+using FamilyTree.ViewModel.Model;
 
 namespace FamilyTree.View
 {
@@ -19,12 +20,21 @@ namespace FamilyTree.View
                 if(_Model != null)
                     return;
 
-                _Model = new MainViewModel();
+                _Model = new MainViewModel
+                {
+                    AskToDeleteFunc = AskDeletePerson
+                };
+
                 DataContext = _Model;
 
                 _Model.DownloadData();
             };
         }
 
+        private bool AskDeletePerson(Person person)
+        {
+            var result = MessageBox.Show(this, Properties.Resources.MainWindow_AskDeletePerson_Are_you_sure_, Properties.Resources.MainWindow_AskDeletePerson_Delete_, MessageBoxButton.YesNo);
+            return result == MessageBoxResult.Yes;
+        }
     }
 }

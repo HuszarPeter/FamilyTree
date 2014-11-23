@@ -61,6 +61,24 @@ namespace FamilyTree.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        public static string MainWindow_AskDeletePerson_Are_you_sure_ {
+            get {
+                return ResourceManager.GetString("MainWindow_AskDeletePerson_Are_you_sure_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete?.
+        /// </summary>
+        public static string MainWindow_AskDeletePerson_Delete_ {
+            get {
+                return ResourceManager.GetString("MainWindow_AskDeletePerson_Delete_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Child.
         /// </summary>
         public static string MenuItemAddChildHeader {

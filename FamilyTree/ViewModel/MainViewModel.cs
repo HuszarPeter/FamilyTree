@@ -7,9 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using FamilyTree.Dal;
+using FamilyTree.Dal.Model;
 using FamilyTree.Utils;
 using FamilyTree.ViewModel.Extensions;
-using FamilyTree.ViewModel.Model;
+using Person = FamilyTree.ViewModel.Model.Person;
 
 namespace FamilyTree.ViewModel
 {
@@ -37,14 +38,66 @@ namespace FamilyTree.ViewModel
 
         private void AddChildExecute(object obj)
         {
+            // Ask the user about the name of the new child and her/his data
             LocalDataStorage.Instance.AddChild(SelectedPersonViewModel.Person, new Person
             {
                 FirstName = "Child of",
                 LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName
             });
+            SelectedPersonViewModel.NotifyRelationsChanged();
         }
         #endregion
 
+        #region Add Sibling command
+        private ICommand _addSiblingCommand;
+        public ICommand AddSiblingCommand
+        {
+            get
+            {
+                return _addSiblingCommand ??
+                       (_addSiblingCommand = new ActionCommand(this, AddSiblingCommandExecute, null));
+            }
+        }
+
+        private void AddSiblingCommandExecute(object obj)
+        {
+            LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, new Person
+            {
+                FirstName = "Sibling of",
+                LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName
+            }, RelationType.Sibling);
+            SelectedPersonViewModel.NotifyRelationsChanged();
+        }
+
+        #endregion
+
+        #region Remove current person Command
+
+        public Func<Person, bool> AskToDeleteFunc { get; set; } 
+
+        private ICommand _removeCurrentPersonCommand;
+        public ICommand RemoveCurrentPersonCommand
+        {
+            get
+            {
+                return _removeCurrentPersonCommand ??
+                       (_removeCurrentPersonCommand = new ActionCommand(this, RemoveCurrentPersonCommandExecute, null));
+            }
+        }
+
+        private void RemoveCurrentPersonCommandExecute(object obj)
+        {
+            var doDelete = AskToDeleteFunc != null && AskToDeleteFunc(SelectedPersonViewModel.Person);
+
+            if (doDelete)
+            {
+                LocalDataStorage.Instance.RemovePerson(SelectedPersonViewModel.Person);
+                SelectedPersonViewModel.Person = Persons.FirstOrDefault();
+            }
+        }
+
+        #endregion
+        
         private readonly PersonViewModel _selectedPersonViewModel = new PersonViewModel();
         public PersonViewModel SelectedPersonViewModel
         {

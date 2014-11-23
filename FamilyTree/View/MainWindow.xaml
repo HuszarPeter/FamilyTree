@@ -8,6 +8,7 @@
         WindowStartupLocation="CenterScreen" Icon="/FamilyTree;component/Res/deciduous_tree-48.png">
     <Window.InputBindings>
         <KeyBinding Command="{Binding RefreshCommand}" Key="F5"/>
+        <KeyBinding Command="{Binding RemoveCurrentPersonCommand}" Key="Delete"/>
     </Window.InputBindings>
     <Grid utils:GridUtils.Rows="Auto,*">
         <Menu HorizontalAlignment="Stretch"
@@ -20,7 +21,8 @@
                           Command="{Binding RefreshCommand}"/>
                 <Separator/>
                 <MenuItem Header="{x:Static properties:Resources.MenuItemAddHeader}">
-                    <MenuItem Header="{x:Static properties:Resources.MenuItemAddSiblingHeader}"/>
+                    <MenuItem Header="{x:Static properties:Resources.MenuItemAddSiblingHeader}"
+                              Command="{Binding AddSiblingCommand}"/>
                     <MenuItem Header="{x:Static properties:Resources.MenuItemAddChildHeader}"
                               Command="{Binding AddChildCommand}"/>
                 </MenuItem>

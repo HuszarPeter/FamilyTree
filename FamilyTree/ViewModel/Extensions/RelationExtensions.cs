@@ -15,6 +15,7 @@ namespace FamilyTree.ViewModel.Extensions
         {
             var result = new Relation
             {
+                RelationId = r.RelationId,
                 SourcePerson = findPersonFunc(r.ParentId),
                 DestinationPerson = findPersonFunc(r.ChildId),
                 RelationType = (RelationType)r.RelationType

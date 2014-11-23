@@ -198,6 +198,11 @@ namespace FamilyTree.Dal
         {
             Update(relation);
         }
+
+        public void DeleteRelation(Relation relation)
+        {
+            ExecuteNonQuery(string.Format("DELETE FROM kapcsolat WHERE kapcsolat_id = {0}", relation.RelationId));
+        }
         #endregion
         
         public void Dispose()
