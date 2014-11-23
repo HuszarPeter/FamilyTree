@@ -104,9 +104,6 @@
     <Compile Include="View\GenderStatisticsWindow.xaml.cs">
       <DependentUpon>GenderStatisticsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PedigreeView.xaml.cs">
-      <DependentUpon>PedigreeView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\PeopleListView.xaml.cs">
       <DependentUpon>PeopleListView.xaml</DependentUpon>
     </Compile>
@@ -132,10 +129,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\PedigreeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\PeopleListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
