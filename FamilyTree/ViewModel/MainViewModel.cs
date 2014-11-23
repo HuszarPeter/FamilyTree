@@ -87,10 +87,9 @@ namespace FamilyTree.ViewModel
                 LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, new Person
                 {
                     FirstName = gender == Gender.Female ? "Mother of" : "Father of",
-                    Gender = Gender.Female,
+                    Gender = gender,
                     LastName = fullName
                 }, RelationType.Parent);
-                SelectedPersonViewModel.NotifyRelationsChanged();
             }
             else
             {
@@ -113,7 +112,6 @@ namespace FamilyTree.ViewModel
                 FirstName = "Child of",
                 LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName
             });
-            SelectedPersonViewModel.NotifyRelationsChanged();
         }
         #endregion
 
@@ -135,7 +133,6 @@ namespace FamilyTree.ViewModel
                 FirstName = "Sibling of",
                 LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName
             }, RelationType.Sibling);
-            SelectedPersonViewModel.NotifyRelationsChanged();
         }
 
         #endregion
@@ -160,7 +157,6 @@ namespace FamilyTree.ViewModel
                 LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName,
                 Gender = SelectedPersonViewModel.Person.Gender == Gender.Male ? Gender.Female : Gender.Male
             }, RelationType.Spouse);        
-            SelectedPersonViewModel.NotifyRelationsChanged();
         }
 
         #endregion

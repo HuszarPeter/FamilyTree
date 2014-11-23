@@ -91,7 +91,13 @@ namespace FamilyTree.ViewModel
                 .Select(r => r.DestinationPerson);
         }
 
-        public void NotifyRelationsChanged()
+        public PersonViewModel()
+        {
+            LocalDataStorage.Instance.Persons.CollectionChanged += (s, e) => NotifyRelationsChanged();
+            LocalDataStorage.Instance.Relations.CollectionChanged += (s, e) => NotifyRelationsChanged();
+        }
+
+        private void NotifyRelationsChanged()
         {
             OnPropertyChanged("Childs");
             OnPropertyChanged("Parents");
