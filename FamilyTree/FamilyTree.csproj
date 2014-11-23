@@ -83,19 +83,27 @@
     <Compile Include="Dal\DatabaseFieldAttribute.cs" />
     <Compile Include="Dal\DatabaseTableAttribute.cs" />
     <Compile Include="Dal\DataContext.cs" />
+    <Compile Include="Dal\Model\AgeStatistic.cs" />
+    <Compile Include="Dal\Model\GenderStatistic.cs" />
     <Compile Include="Dal\Model\Relation.cs" />
     <Compile Include="Utils\ActionCommand.cs" />
+    <Compile Include="Utils\AgeKeyToTextConverter.cs" />
     <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Utils\GenderConverter.cs" />
     <Compile Include="Utils\GridUtils.cs" />
     <Compile Include="Utils\PersonNameConverter.cs" />
     <Compile Include="Utils\PersonPictureConverter.cs" />
     <Compile Include="Utils\PersonSkullConverter.cs" />
     <Compile Include="ViewModel\Extensions\PersonExtensions.cs" />
     <Compile Include="ViewModel\Extensions\RelationExtensions.cs" />
+    <Compile Include="ViewModel\GenderStatisticsViewModel.cs" />
     <Compile Include="ViewModel\LocalDataStorage.cs" />
     <Compile Include="ViewModel\Model\Person.cs" />
     <Compile Include="ViewModel\Model\Relation.cs" />
     <Compile Include="ViewModel\PersonViewModel.cs" />
+    <Compile Include="View\GenderStatisticsWindow.xaml.cs">
+      <DependentUpon>GenderStatisticsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\PedigreeView.xaml.cs">
       <DependentUpon>PedigreeView.xaml</DependentUpon>
     </Compile>
@@ -105,6 +113,10 @@
     <Compile Include="View\PersonDetails.xaml.cs">
       <DependentUpon>PersonDetails.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\GenderStatisticsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -16,18 +16,29 @@
               BorderThickness="0,0,0,1"
               Padding="2">
             <MenuItem Header="{x:Static properties:Resources.RootMenuHeader}">
-                <MenuItem Header="About"/>
                 <MenuItem Header="{x:Static properties:Resources.MenuItemRefreshHeader}"
                           Command="{Binding RefreshCommand}"/>
                 <Separator/>
-                <MenuItem Header="{x:Static properties:Resources.MenuItemAddHeader}">
-                    <MenuItem Header="{x:Static properties:Resources.MenuItemAddSiblingHeader}"
-                              Command="{Binding AddSiblingCommand}"/>
-                    <MenuItem Header="{x:Static properties:Resources.MenuItemAddChildHeader}"
-                              Command="{Binding AddChildCommand}"/>
-                </MenuItem>
+                <MenuItem Header="{x:Static properties:Resources.MenuItemExitHeader}"
+                          Command="{Binding ExitCommand}"/>
+            </MenuItem>
+            <MenuItem Header="{x:Static properties:Resources.MenuItemAddHeader}">
+                <MenuItem Header="Father"
+                              Command="{Binding AddFatherCommand}"/>
+                <MenuItem Header="Mother"
+                              Command="{Binding AddMotherCommand}"/>
                 <Separator/>
-                <MenuItem Header="{x:Static properties:Resources.MenuItemExitHeader}"/>
+                <MenuItem Header="Spouse"
+                              Command="{Binding AddSpouseCommand}"/>
+                <Separator/>
+                <MenuItem Header="{x:Static properties:Resources.MenuItemAddSiblingHeader}"
+                              Command="{Binding AddSiblingCommand}"/>
+                <MenuItem Header="{x:Static properties:Resources.MenuItemAddChildHeader}"
+                              Command="{Binding AddChildCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Statistics">
+                <MenuItem Header="Genders"
+                          Command="{Binding ShowGendersStatistics}"></MenuItem>
             </MenuItem>
         </Menu>
         <view:PeopleListView DataContext="{Binding}"

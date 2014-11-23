@@ -204,7 +204,39 @@ namespace FamilyTree.Dal
             ExecuteNonQuery(string.Format("DELETE FROM kapcsolat WHERE kapcsolat_id = {0}", relation.RelationId));
         }
         #endregion
-        
+
+        public List<GenderStatistic> GetGenderStatistics()
+        {
+            var query =
+                "select szemely.ferfi, count(*) as cnt, (select count(*) from szemely) as osszes from szemely group by szemely.ferfi";
+            var result = ExecuteQuery<GenderStatistic>(query);
+            return result;
+        }
+
+        public List<AgeStatistic> GetAgeStatistics()
+        {
+            var query = new StringBuilder();
+            query.AppendLine("SELECT * FROM (");
+            query.AppendLine("select 2 as k, count(szemely.szemely_id) as num from szemely");
+            query.AppendLine("where year(curdate()) - year(szemely.szuletes_ideje) > 18");
+            query.AppendLine("union");
+            query.AppendLine("select 0 as k, count(szemely.szemely_id) as num from szemely");
+            query.AppendLine("where year(curdate()) - year(szemely.szuletes_ideje) < 12");
+            query.AppendLine("union");
+            query.AppendLine("select 1 as k, count(szemely.szemely_id) as num from szemely");
+            query.AppendLine("where year(curdate()) - year(szemely.szuletes_ideje) between 12 and 18");
+            query.AppendLine("union");
+            query.AppendLine("select 3 as k, count(szemely.szemely_id) as num from szemely");
+            query.AppendLine("where szemely.szuletes_ideje is null");
+            query.AppendLine("union");
+            query.AppendLine("select 100 as k, count(*) as num from szemely");
+            query.AppendLine(") as t");
+            query.AppendLine("ORDER BY k");
+
+            return ExecuteQuery<AgeStatistic>(query.ToString());
+        }
+
+
         public void Dispose()
         {
             if (_connection == null || _connection.State != ConnectionState.Open) return;

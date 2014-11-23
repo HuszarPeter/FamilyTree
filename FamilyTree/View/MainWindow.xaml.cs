@@ -22,13 +22,22 @@ namespace FamilyTree.View
 
                 _Model = new MainViewModel
                 {
-                    AskToDeleteFunc = AskDeletePerson
+                    AskToDeleteFunc = AskDeletePerson,
+                    ShowGenderStatisticsAction = ShowGenderStats
                 };
 
                 DataContext = _Model;
 
                 _Model.DownloadData();
             };
+        }
+
+        private void ShowGenderStats()
+        {
+            var win = new GenderStatisticsWindow();
+            win.Owner = this;
+            win.ShowDialog();
+
         }
 
         private bool AskDeletePerson(Person person)

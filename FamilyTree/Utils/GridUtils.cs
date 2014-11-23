@@ -78,9 +78,9 @@ namespace FamilyTree.Utils
         {
             GridLength gridLength;
 
-            var starMatch = new Regex(@"([0-9]*)\*$").Match(stringValue);
-            var valueMatch = new Regex(@"([0-9])+$").Match(stringValue);
-            var autoMatch = new Regex(@"(auto)$", RegexOptions.IgnoreCase).Match(stringValue);
+            var starMatch = new Regex(@"^([0-9]*)\*$").Match(stringValue);
+            var valueMatch = new Regex(@"^([0-9])+$").Match(stringValue);
+            var autoMatch = new Regex(@"^(auto)$", RegexOptions.IgnoreCase).Match(stringValue);
             if (starMatch.Success)
             {
                 int defSize;
@@ -91,7 +91,7 @@ namespace FamilyTree.Utils
             else if (valueMatch.Success)
             {
                 int size;
-                if (!int.TryParse(valueMatch.Groups[1].Value, out size))
+                if (!int.TryParse(valueMatch.Groups[0].Value, out size))
                     size = 0;
                 gridLength = new GridLength(size);
             }

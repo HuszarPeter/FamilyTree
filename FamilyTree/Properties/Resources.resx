@@ -151,4 +151,19 @@
   <data name="MainWindow_AskDeletePerson_Delete_" xml:space="preserve">
     <value>Delete?</value>
   </data>
+  <data name="AgeKeyAdult" xml:space="preserve">
+    <value>Adult</value>
+  </data>
+  <data name="AgeKeyChildren" xml:space="preserve">
+    <value>Children</value>
+  </data>
+  <data name="AgeKeySum" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="AgeKeyTeen" xml:space="preserve">
+    <value>Teenager</value>
+  </data>
+  <data name="AgeKeyUnknown" xml:space="preserve">
+    <value>Unknown age</value>
+  </data>
 </root>

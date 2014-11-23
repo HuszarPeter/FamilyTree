@@ -119,12 +119,7 @@ namespace FamilyTree.ViewModel
                     DestinationPerson = child,
                     RelationType = relationType
                 };
-                var childToPerson = new Relation
-                {
-                    SourcePerson = child,
-                    DestinationPerson = person,
-                    RelationType = relationType
-                };
+                var childToPerson = personToChild.GetReverseRelation();
 
                 if (Relations.FirstOrDefault(r => r == personToChild) == null)
                 {

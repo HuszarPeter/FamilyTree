@@ -61,6 +61,51 @@ namespace FamilyTree.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adult.
+        /// </summary>
+        public static string AgeKeyAdult {
+            get {
+                return ResourceManager.GetString("AgeKeyAdult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Children.
+        /// </summary>
+        public static string AgeKeyChildren {
+            get {
+                return ResourceManager.GetString("AgeKeyChildren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Summary.
+        /// </summary>
+        public static string AgeKeySum {
+            get {
+                return ResourceManager.GetString("AgeKeySum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Teenager.
+        /// </summary>
+        public static string AgeKeyTeen {
+            get {
+                return ResourceManager.GetString("AgeKeyTeen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown age.
+        /// </summary>
+        public static string AgeKeyUnknown {
+            get {
+                return ResourceManager.GetString("AgeKeyUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         public static string MainWindow_AskDeletePerson_Are_you_sure_ {
