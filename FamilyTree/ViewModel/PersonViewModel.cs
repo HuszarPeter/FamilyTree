@@ -20,10 +20,7 @@ namespace FamilyTree.ViewModel
             {
                 _person = value;
                 OnPropertyChanged();
-                OnPropertyChanged("Childs");
-                OnPropertyChanged("Parents");
-                OnPropertyChanged("Spouses");
-                OnPropertyChanged("Siblings");
+                NotifyRelationsChanged();
             }
         }
 
@@ -42,6 +39,25 @@ namespace FamilyTree.ViewModel
             var p = param as Person;
             if(p == null) return;
             Person = p;
+        }
+
+        private ICommand _removeConnectionCommand;
+        public ICommand RemoveConnectionCommand
+        {
+            get
+            {
+                return _removeConnectionCommand ??
+                       (_removeConnectionCommand = new ActionCommand(this, RemoveConnection, null));
+            }
+        }
+
+        private void RemoveConnection(object param)
+        {
+            var p = param as Person;
+            if (p == null) return;
+
+            LocalDataStorage.Instance.RemoveRelation(Person, p);
+            NotifyRelationsChanged();
         }
 
         public IEnumerable<Person> Childs
@@ -73,6 +89,14 @@ namespace FamilyTree.ViewModel
         {
             return LocalDataStorage.Instance.Relations.Where(r => r.SourcePerson == Person && r.RelationType == t)
                 .Select(r => r.DestinationPerson);
+        }
+
+        private void NotifyRelationsChanged()
+        {
+            OnPropertyChanged("Childs");
+            OnPropertyChanged("Parents");
+            OnPropertyChanged("Spouses");
+            OnPropertyChanged("Siblings");
         }
     }
 }

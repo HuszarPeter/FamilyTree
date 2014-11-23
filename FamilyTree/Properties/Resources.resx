@@ -121,4 +121,10 @@
     <value>{1} {0}</value>
     <comment>Persons full name format. {0} will be the lastname and {1} will be the firstname</comment>
   </data>
+  <data name="MenuItemHeaderRemoveConnection" xml:space="preserve">
+    <value>Remove connection</value>
+  </data>
+  <data name="MenuItemHeaderGoTo" xml:space="preserve">
+    <value>Goto...</value>
+  </data>
 </root>

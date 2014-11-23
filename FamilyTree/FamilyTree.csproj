@@ -81,6 +81,7 @@
     <Compile Include="Controls\ClipBorder.cs" />
     <Compile Include="Controls\GeometryHelper.cs" />
     <Compile Include="Dal\DatabaseFieldAttribute.cs" />
+    <Compile Include="Dal\DatabaseTableAttribute.cs" />
     <Compile Include="Dal\DataContext.cs" />
     <Compile Include="Dal\Model\Relation.cs" />
     <Compile Include="Utils\ActionCommand.cs" />
@@ -147,7 +148,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />

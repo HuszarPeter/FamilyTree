@@ -63,6 +63,7 @@ namespace FamilyTree.ViewModel
                 ).ToList();
 
             /*we have to make the other end of relations if they aren't exists!*/
+            /*we also need to make the siblings and nephews if they aren't exists*/
             var result2 = new List<Relation>();
             result1.ForEach(relation =>
             {
@@ -73,6 +74,19 @@ namespace FamilyTree.ViewModel
             });
 
             return result1.Union(result2).Distinct().ToList();
+        }
+
+        public void RemoveRelation(Person person, Person person1)
+        {
+            var relationsToRemove = Relations
+                .Where(
+                    r =>
+                        (r.SourcePerson == person && r.DestinationPerson == person1) ||
+                        (r.SourcePerson == person1 && r.DestinationPerson == person))
+                .ToList();
+
+            relationsToRemove
+                .ForEach(relation => Relations.Remove(relation));
         }
     }
 }

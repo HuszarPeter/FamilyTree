@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:utils="clr-namespace:FamilyTree.Utils"
              xmlns:model="clr-namespace:FamilyTree.ViewModel.Model"
+             xmlns:Properties="clr-namespace:FamilyTree.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -49,7 +50,18 @@
         
         <DataTemplate x:Key="RelatedPersonTemplate" DataType="model:Person">
             <Grid Margin="3"
-                  utils:GridUtils.Rows="Auto,Auto">
+                  utils:GridUtils.Rows="Auto,Auto"
+                  Tag="{Binding DataContext, ElementName=RootGrid}">
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{x:Static Properties:Resources.MenuItemHeaderRemoveConnection}"
+                                  Command="{Binding PlacementTarget.Tag.RemoveConnectionCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                  CommandParameter="{Binding}"/>
+                        <MenuItem Header="{x:Static Properties:Resources.MenuItemHeaderGoTo}"
+                                  Command="{Binding PlacementTarget.Tag.SelectPersonCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                  CommandParameter="{Binding}"/>
+                    </ContextMenu>
+                </Grid.ContextMenu>
                 <ContentControl ContentTemplate="{StaticResource ClickablePersonPictureTemplate}"
                                 Content="{Binding }" >
                     <ContentControl.LayoutTransform>
@@ -120,6 +132,11 @@
                 <GroupBox Header="Siblings"
                           Grid.ColumnSpan="2"
                           Grid.Row="1">
+                    <GroupBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add" />
+                        </ContextMenu>
+                    </GroupBox.ContextMenu>
                     <ItemsControl ItemsSource="{Binding Siblings}"
                                   Style="{StaticResource WrappedRelativeItemsControl}"/>
                 </GroupBox>

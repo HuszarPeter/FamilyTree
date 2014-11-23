@@ -18,7 +18,7 @@ namespace FamilyTree.Utils
             _executeAction = executeAction;
             _canExecuteFunc = canExecuteFunc;
 
-            vm.PropertyChanged += (s, e) => CanExecuteChanged(this, EventArgs.Empty);
+            vm.PropertyChanged += (s, e) => OnCanExecuteChanged();
         }
 
         public bool CanExecute(object parameter)
@@ -33,5 +33,12 @@ namespace FamilyTree.Utils
         }
 
         public event EventHandler CanExecuteChanged;
+
+        protected virtual void OnCanExecuteChanged()
+        {
+            var handler = CanExecuteChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
     }
 }
