@@ -108,6 +108,18 @@ namespace FamilyTree.ViewModel.Model
             {
                 _gender = value;
                 OnPropertyChanged();
+                OnPropertyChanged("IsMale");
+            }
+        }
+
+        public bool IsMale
+        {
+            get { return Gender == Gender.Male; }
+            set
+            {
+                Gender = value ? Gender.Male : Gender.Female;
+                OnPropertyChanged();
+                OnPropertyChanged("Gender");
             }
         }
 

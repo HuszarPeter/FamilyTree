@@ -45,6 +45,8 @@ namespace FamilyTree.ViewModel
 
         #endregion
 
+        public Func<Person, bool> EditPersonFunc { get; set; }
+
         private bool CheckSelectedPerson(object obj)
         {
             return SelectedPersonViewModel.Person != null;
@@ -111,12 +113,15 @@ namespace FamilyTree.ViewModel
 
         private void AddChildExecute(object obj)
         {
-            // Ask the user about the name of the new child and her/his data
-            LocalDataStorage.Instance.AddChild(SelectedPersonViewModel.Person, new Person
+            var child = new Person
             {
                 FirstName = "Child of",
                 LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName
-            });
+            };
+            var ok = EditPersonFunc != null && EditPersonFunc(child);
+            if(!ok) return;
+            // Ask the user about the name of the new child and her/his data
+            LocalDataStorage.Instance.AddChild(SelectedPersonViewModel.Person, child);
         }
         #endregion
 

@@ -23,13 +23,26 @@ namespace FamilyTree.View
                 _Model = new MainViewModel
                 {
                     AskToDeleteFunc = AskDeletePerson,
-                    ShowGenderStatisticsAction = ShowGenderStats
+                    ShowGenderStatisticsAction = ShowGenderStats,
+                    EditPersonFunc = EditPerson
                 };
 
                 DataContext = _Model;
 
                 _Model.DownloadData();
             };
+        }
+
+        private bool EditPerson(Person person)
+        {
+            if (person == null) return false;
+
+            var form = new EditPersonWindow
+            {
+                Owner = this
+            };
+            var result = form.ShowDialog(person);
+            return result.HasValue && result.Value;
         }
 
         private void ShowGenderStats()

@@ -61,6 +61,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -101,6 +102,9 @@
     <Compile Include="ViewModel\Model\Person.cs" />
     <Compile Include="ViewModel\Model\Relation.cs" />
     <Compile Include="ViewModel\PersonViewModel.cs" />
+    <Compile Include="View\EditPersonWindow.xaml.cs">
+      <DependentUpon>EditPersonWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GenderStatisticsWindow.xaml.cs">
       <DependentUpon>GenderStatisticsWindow.xaml</DependentUpon>
     </Compile>
@@ -110,6 +114,10 @@
     <Compile Include="View\PersonDetails.xaml.cs">
       <DependentUpon>PersonDetails.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\EditPersonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\GenderStatisticsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
