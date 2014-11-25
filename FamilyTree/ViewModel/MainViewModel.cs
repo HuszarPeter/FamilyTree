@@ -137,11 +137,14 @@ namespace FamilyTree.ViewModel
 
         private void AddSiblingCommandExecute(object obj)
         {
-            LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, new Person
+            var sibling = new Person
             {
                 FirstName = "Sibling of",
                 LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName
-            }, RelationType.Sibling);
+            };
+            var ok = EditPersonFunc != null && EditPersonFunc(sibling);
+            if(!ok) return;
+            LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, sibling, RelationType.Sibling);
         }
 
         #endregion
@@ -159,12 +162,16 @@ namespace FamilyTree.ViewModel
 
         private void AddSpouseCommandExecute(object obj)
         {
-            LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, new Person
+            var spouse = new Person
             {
                 FirstName = "Spouse of",
                 LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName,
                 Gender = SelectedPersonViewModel.Person.Gender == Gender.Male ? Gender.Female : Gender.Male
-            }, RelationType.Spouse);        
+            };
+            var ok = EditPersonFunc != null && EditPersonFunc(spouse);
+            if(!ok) return;
+            LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, spouse, RelationType.Spouse);
+
         }
 
         #endregion
