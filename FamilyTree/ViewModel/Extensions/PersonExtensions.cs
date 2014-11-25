@@ -37,6 +37,7 @@ namespace FamilyTree.ViewModel.Extensions
                 FirstName = p.FirstName,
                 LastName = p.LastName,
                 IsMale = p.Gender == Gender.Male,
+                ProfilePicture = p.Picture
             };
         }
     }

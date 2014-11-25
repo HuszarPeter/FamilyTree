@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using FamilyTree.Dal;
+using MySql.Data.MySqlClient;
 
 namespace FamilyTree.Utils
 {
@@ -32,6 +33,35 @@ namespace FamilyTree.Utils
                 })
                 .Where(i => i.DatabaseFieldAttribute != null)
                 .ToList();
+        }
+
+        public static MySqlParameter GetMysqlQueryParameter(this PropertyMappedDatabaseField pd, Object o)
+        {
+            PropertyInfo pi = pd.PropertyInfo;
+            var result = new MySqlParameter
+            {
+                SourceColumn = pd.DatabaseFieldAttribute.Name,
+                ParameterName = string.Format("?p{0}", pd.DatabaseFieldAttribute.Name)
+            };
+
+            if (pi.PropertyType == typeof (string))
+            {
+                result.MySqlDbType = MySqlDbType.String;
+            } 
+            else if (pi.PropertyType == typeof(int))
+            {
+                result.MySqlDbType = MySqlDbType.Int64;
+            }
+            else if (pi.PropertyType == typeof (byte[]))
+            {
+                result.MySqlDbType = MySqlDbType.LongBlob;
+            }
+            else if (pi.PropertyType == typeof (bool))
+            {
+                result.MySqlDbType = MySqlDbType.Int16;
+            }
+            result.Value = pi.GetValue(o);
+            return result;
         }
 
         public static string GetMySqlCompatiblePropertyValue(this PropertyInfo pi, Object o)

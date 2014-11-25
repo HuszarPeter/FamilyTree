@@ -87,20 +87,19 @@ namespace FamilyTree.ViewModel
         private void AddParent(object obj, Gender gender)
         {
             var cPerson = SelectedPersonViewModel.Person;
-            var fullName = cPerson.FirstName + " " + cPerson.LastName;
+            var fullName = PersonNameConverter.GetFullNameOfPerson(SelectedPersonViewModel.Person);
 
             if (SelectedPersonViewModel.Parents.All(p => p.Gender != gender))
             {
-                LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, new Person
+                var parent = new Person
                 {
                     FirstName = gender == Gender.Female ? "Mother of" : "Father of",
                     Gender = gender,
                     LastName = fullName
-                }, RelationType.Parent);
-            }
-            else
-            {
-                // xx is already have a mother
+                };
+                var ok = EditPersonFunc != null && EditPersonFunc(parent);
+                if(!ok) return;
+                LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, parent, RelationType.Parent);
             }
         }
 
@@ -116,7 +115,7 @@ namespace FamilyTree.ViewModel
             var child = new Person
             {
                 FirstName = "Child of",
-                LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName
+                LastName = PersonNameConverter.GetFullNameOfPerson(SelectedPersonViewModel.Person)
             };
             var ok = EditPersonFunc != null && EditPersonFunc(child);
             if(!ok) return;
@@ -150,7 +149,6 @@ namespace FamilyTree.ViewModel
         #region Add spouse Command
 
         private ICommand _addSpouseCommand;
-
         public ICommand AddSpouseCommand
         {
             get

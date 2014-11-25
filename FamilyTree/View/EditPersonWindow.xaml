@@ -4,8 +4,8 @@
         xmlns:utils="clr-namespace:FamilyTree.Utils"
         WindowStartupLocation="CenterOwner"
         SizeToContent="WidthAndHeight"
-        MinWidth="250"
-        MinHeight="100"
+        MinWidth="450"
+        MinHeight="120"
         Title="Edit person" Height="300" Width="300" Icon="/FamilyTree;component/Res/deciduous_tree-48.png" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="lbl" TargetType="TextBlock">
@@ -14,30 +14,78 @@
         <Style x:Key="edit" TargetType="TextBox">
             <Setter Property="Margin" Value="2"/>
         </Style>
+        <Style x:Key="dt" TargetType="DatePicker">
+            <Setter Property="Margin" Value="2"/>
+        </Style>
     </Window.Resources>
     <Grid utils:GridUtils.Rows="Auto,Auto">
         <GroupBox Header="Basic data">
-            <Grid utils:GridUtils.Columns="Auto,*"
-                  utils:GridUtils.Rows="Auto,auto,auto,auto,auto,*">
-                <TextBlock Grid.Column="0" Text="FirtName :"
+            <Grid utils:GridUtils.Columns="Auto,Auto,*"
+                  utils:GridUtils.Rows="Auto,auto,auto,auto,auto,*"
+                  ShowGridLines="False">
+                <Button Grid.RowSpan="6"
+                        VerticalAlignment="Top"
+                        Command="{Binding BrowsePictureCommand}">
+                    <Image Source="{Binding Person.Picture}"
+                           Width="60"
+                           Height="60"
+                           RenderOptions.BitmapScalingMode="HighQuality" />
+                </Button>
+                <TextBlock Grid.Column="1" Text="Name :"
                            Style="{StaticResource lbl}"/>
-                <TextBox Grid.Column="1"
-                         Text="{Binding Person.FirstName, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource edit}"/>
-                
-                <TextBlock Grid.Row="1"
-                           Text="Last name:"
-                           Style="{StaticResource lbl}"/>
-                <TextBox Text="{Binding Person.LastName, UpdateSourceTrigger=PropertyChanged}"
+                <Grid Grid.Column="2"
+                      utils:GridUtils.Columns="*,*">
+                    <TextBox Text="{Binding Person.FirstName, UpdateSourceTrigger=PropertyChanged}"
                          Style="{StaticResource edit}"
-                         Grid.Row="1"
-                         Grid.Column="1"/>
-                
+                         utils:TextBoxBehavior.SelectAllTextOnFocus="True"/>
+                    <TextBox Text="{Binding Person.LastName, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource edit}"
+                         Grid.Column="1"
+                         utils:TextBoxBehavior.SelectAllTextOnFocus="True"/>
+                </Grid>
+
+                <TextBlock Grid.Column="1" 
+                           Grid.Row="1"
+                           Text="Birth name :"
+                           Style="{StaticResource lbl}"/>
+                <Grid Grid.Column="2"
+                      Grid.Row="1"
+                      utils:GridUtils.Columns="*,*">
+                    <TextBox Text="{Binding Person.BirthFirstName, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource edit}"
+                         utils:TextBoxBehavior.SelectAllTextOnFocus="True"/>
+                    <TextBox Text="{Binding Person.BirthLastName, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource edit}"
+                         Grid.Column="1"
+                         utils:TextBoxBehavior.SelectAllTextOnFocus="True"/>
+                </Grid>
+
                 <CheckBox Content="Is male?"
-                          Grid.Column="1"
+                          Grid.Column="2"
                           Grid.Row="2"
                           Margin="2"
                           IsChecked="{Binding Person.IsMale, UpdateSourceTrigger=PropertyChanged}"/>
+                
+                <TextBlock Text="Birth :"
+                         Grid.Column="1"
+                         Grid.Row="3"
+                         Style="{StaticResource lbl}"/>
+                
+                <DatePicker Grid.Column="2"
+                            Grid.Row="3"
+                            Style="{StaticResource dt}"
+                            DisplayDate="{Binding Person.DateOfBirth}"/>
+
+                <TextBlock Text="Death :"
+                         Grid.Column="1"
+                         Grid.Row="4"
+                         Style="{StaticResource lbl}"/>
+                
+                <DatePicker Grid.Column="2"
+                            Grid.Row="4"
+                            Style="{StaticResource dt}"
+                            DisplayDate="{Binding Person.DateOfDeath}"/>
+
             </Grid>
         </GroupBox>
         

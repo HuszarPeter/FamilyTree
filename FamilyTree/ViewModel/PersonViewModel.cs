@@ -24,6 +24,7 @@ namespace FamilyTree.ViewModel
             }
         }
 
+        #region Select another person Command
         private ICommand _selectPersonCommand;
         public ICommand SelectPersonCommand
         {
@@ -37,10 +38,13 @@ namespace FamilyTree.ViewModel
         private void SelectAnotherPerson(Object param)
         {
             var p = param as Person;
-            if(p == null) return;
+            if (p == null) return;
             Person = p;
         }
 
+        #endregion
+
+        #region Remove connection command
         private ICommand _removeConnectionCommand;
         public ICommand RemoveConnectionCommand
         {
@@ -58,6 +62,27 @@ namespace FamilyTree.ViewModel
 
             LocalDataStorage.Instance.RemoveRelation(Person, p);
             NotifyRelationsChanged();
+        } 
+        #endregion
+
+
+        public Func<byte[]> BrowseForPicture { get; set; } 
+        private ICommand _browsePictureCommand;
+        public ICommand BrowsePictureCommand
+        {
+            get
+            {
+                return _browsePictureCommand ??
+                       (_browsePictureCommand = new ActionCommand(this, BrowseForPictireCommandExecute, null));
+            }
+        }
+
+        private void BrowseForPictireCommandExecute(object obj)
+        {
+            if (BrowseForPicture == null) return;
+            var pic = BrowseForPicture();
+            if(pic == null) return;
+            Person.Picture = pic;
         }
 
         public IEnumerable<Person> Childs

@@ -34,5 +34,11 @@ namespace FamilyTree.Utils
         {
             throw new NotImplementedException();
         }
+
+        public static string GetFullNameOfPerson(Person person)
+        {
+            return string.Format("{0}",
+                _converter.Convert(person, typeof (string), null, CultureInfo.CurrentUICulture));
+        }
     }
 }

@@ -49,6 +49,18 @@ namespace FamilyTree.Dal
             return result;
         }
 
+        private int ExecuteNonQuery(string query, List<MySqlParameter> parameters)
+        {
+            if(_connection.State != ConnectionState.Open)
+                _connection.Open();
+
+            var cmd = _connection.CreateCommand();
+            parameters.ForEach(p => cmd.Parameters.Add(p));
+            cmd.CommandText = query;
+            cmd.ExecuteNonQuery();
+            return (int) cmd.LastInsertedId;
+        }
+
         private int ExecuteNonQuery(string query)
         {
             if(_connection.State != ConnectionState.Open)
@@ -105,14 +117,14 @@ namespace FamilyTree.Dal
             var nameValues = typeof (T)
                 .GetDatabaseFileds()
                 .Where(p => !p.DatabaseFieldAttribute.IsPrimaryKey)
-                .Select(p => new {p.DatabaseFieldAttribute.Name, Value = p.PropertyInfo.GetMySqlCompatiblePropertyValue(entity)});
+                .Select(p => p.GetMysqlQueryParameter(entity));
 
             var insertQuery =  string.Format("INSERT INTO {2} ({0}) VALUES ({1})"
-                , string.Join(",", nameValues.Select(p => p.Name))
-                , string.Join(",", nameValues.Select(p => p.Value)),
+                , string.Join(",", nameValues.Select(p => p.SourceColumn))
+                , string.Join(",", nameValues.Select(p => p.ParameterName)),
                 dbTable.Name);
 
-            var id = ExecuteNonQuery(insertQuery);
+            var id = ExecuteNonQuery(insertQuery, nameValues.ToList());
             if (idProperty != null)
             {
                 idProperty.PropertyInfo.SetValue(entity, id);
