@@ -280,5 +280,23 @@ namespace FamilyTree.Dal
 
             return ExecuteQuery<PersonWithCount>(q.ToString());
         }
+
+        public List<GeneratedEvent> GetCombinedEventList()
+        {
+            var q = new StringBuilder();
+            q.AppendLine(
+                "select esemeny.*, null as szemely_id, null as tipus from esemeny, szemely as sz, resztvevo as r");
+            q.AppendLine("where esemeny.esemeny_id = r.esemeny_id and r.szemely_id = sz.szemely_id");
+            q.AppendLine("union");
+            q.AppendLine(
+                "select null as esemeny_id, sz.szuletes_ideje as idopont, null as megnevezes, sz.szemely_id as szemely_id, 1 as tipus from szemely as sz");
+            q.AppendLine("where sz.szuletes_ideje is not null");
+            q.AppendLine("union");
+            q.AppendLine("select null as esemeny_id, sz.halalozas_ideje as idopont, null as megnevezes, sz.szemely_id as szemely_id, 2 as tipus from szemely as sz");
+            q.AppendLine("where sz.halalozas_ideje is not null");
+            q.AppendLine("order by idopont asc");
+
+            return ExecuteQuery<GeneratedEvent>(q.ToString());
+        }
     }
 }

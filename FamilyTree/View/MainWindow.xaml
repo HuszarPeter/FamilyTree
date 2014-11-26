@@ -44,6 +44,8 @@
                 <MenuItem Header="Most fertile persons"
                           Command="{Binding ShowFertilityCommand}"/>
             </MenuItem>
+            <MenuItem Header="Timeline"
+                      Command="{Binding ShowTimeLineCommand}" />
         </Menu>
         <view:PeopleListView DataContext="{Binding}"
                                 Grid.Row="1"/>

@@ -1,0 +1,42 @@
+﻿<Window x:Class="FamilyTree.View.TimelineWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:utils="clr-namespace:FamilyTree.Utils"
+        WindowStartupLocation="CenterOwner"
+        MaxHeight="800"
+        MaxWidth="500"
+        MinHeight="350"
+        MinWidth="300"
+        Title="Timeline of events" Height="670" Width="480" Icon="/FamilyTree;component/Res/deciduous_tree-48.png">
+    <Grid>
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding TimelineEvents}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                            <Grid utils:GridUtils.Rows="*,*"
+                                  Margin="5"
+                                  SnapsToDevicePixels="True">
+                                <Border CornerRadius="3,3,0,0"
+                                        BorderBrush="DarkSlateBlue"
+                                        Background="DarkSlateBlue"
+                                        BorderThickness="1,1,1,0">
+                                    <TextBlock Text="{Binding Date, StringFormat='{}{0:yyyy MMMM dd}'}"
+                                               FontSize="9"
+                                               Foreground="White"
+                                               HorizontalAlignment="Right"
+                                               Margin="3"/>
+                                </Border>
+                                <Border CornerRadius="0"
+                                        BorderBrush="DarkSlateBlue"
+                                        BorderThickness="1,0,1,1"
+                                        Grid.Row="1">
+                                    <TextBlock Text="{Binding Text}"
+                                               Margin="5"/>
+                            </Border>
+                            </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Window>

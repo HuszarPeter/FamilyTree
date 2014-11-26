@@ -271,6 +271,23 @@ namespace FamilyTree.ViewModel
                 ShowFertilityAction();
         }
 
+        public Action ShowTimelineAction;
+        private ICommand _showTimeLineCommand;
+
+        public ICommand ShowTimeLineCommand
+        {
+            get
+            {
+                return _showTimeLineCommand ?? (_showTimeLineCommand = new ActionCommand(this, ShowtimeLineCommandExecute, null));
+            }
+        }
+
+        private void ShowtimeLineCommandExecute(object obj)
+        {
+            if (ShowTimelineAction != null)
+                ShowTimelineAction();
+        }
+
         private readonly PersonViewModel _selectedPersonViewModel = new PersonViewModel();
         private ICommand _exitCommand;
         private Func<Person, bool> _editPersonFunc;

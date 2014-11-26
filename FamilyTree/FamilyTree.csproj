@@ -85,7 +85,9 @@
     <Compile Include="Dal\DatabaseTableAttribute.cs" />
     <Compile Include="Dal\DataContext.cs" />
     <Compile Include="Dal\Model\AgeStatistic.cs" />
+    <Compile Include="Dal\Model\Event.cs" />
     <Compile Include="Dal\Model\GenderStatistic.cs" />
+    <Compile Include="Dal\Model\GeneratedEvent.cs" />
     <Compile Include="Dal\Model\PersonWithCount.cs" />
     <Compile Include="Dal\Model\Relation.cs" />
     <Compile Include="Utils\ActionCommand.cs" />
@@ -97,15 +99,18 @@
     <Compile Include="Utils\PersonPictureConverter.cs" />
     <Compile Include="Utils\PersonSkullConverter.cs" />
     <Compile Include="Utils\TextBoxBehavior.cs" />
+    <Compile Include="ViewModel\Extensions\EventExtensions.cs" />
     <Compile Include="ViewModel\Extensions\PersonExtensions.cs" />
     <Compile Include="ViewModel\Extensions\RelationExtensions.cs" />
     <Compile Include="ViewModel\GenderStatisticsViewModel.cs" />
     <Compile Include="ViewModel\LocalDataStorage.cs" />
+    <Compile Include="ViewModel\Model\Event.cs" />
     <Compile Include="ViewModel\Model\Person.cs" />
     <Compile Include="ViewModel\Model\PersonWithCount.cs" />
     <Compile Include="ViewModel\Model\Relation.cs" />
     <Compile Include="ViewModel\PersonStatisticsViewModel.cs" />
     <Compile Include="ViewModel\PersonViewModel.cs" />
+    <Compile Include="ViewModel\TimelineViewModel.cs" />
     <Compile Include="View\EditPersonWindow.xaml.cs">
       <DependentUpon>EditPersonWindow.xaml</DependentUpon>
     </Compile>
@@ -123,6 +128,9 @@
     </Compile>
     <Compile Include="View\PersonDetails.xaml.cs">
       <DependentUpon>PersonDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TimelineWindow.xaml.cs">
+      <DependentUpon>TimelineWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="View\EditPersonWindow.xaml">
       <SubType>Designer</SubType>
@@ -160,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PersonDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TimelineWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

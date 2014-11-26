@@ -26,6 +26,7 @@ namespace FamilyTree.View
                     ShowGenderStatisticsAction = ShowGenderStats,
                     ShowPeoplesWithoutChildsAction = ShowChildlessPeoples,
                     ShowFertilityAction = ShowFertilityStat,
+                    ShowTimelineAction = ShowTimeline,
                     EditPersonFunc = EditPerson
                 };
 
@@ -33,6 +34,16 @@ namespace FamilyTree.View
 
                 _Model.DownloadData();
             };
+        }
+
+        private void ShowTimeline()
+        {
+            var win = new TimelineWindow
+            {
+                Owner = this
+
+            };
+            win.ShowDialog();
         }
 
         private void ShowFertilityStat()
