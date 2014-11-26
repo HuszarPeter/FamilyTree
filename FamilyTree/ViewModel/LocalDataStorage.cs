@@ -161,5 +161,13 @@ namespace FamilyTree.ViewModel
                 context.DeletePerson(person.ConvertToDalPerson());
             }
         }
+
+        public void UpdatePerson(Person person)
+        {
+            using (var context = new DataContext())
+            {
+                context.UpdatePerson(person.ConvertToDalPerson());
+            }
+        }
     }
 }

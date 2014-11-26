@@ -45,7 +45,15 @@ namespace FamilyTree.ViewModel
 
         #endregion
 
-        public Func<Person, bool> EditPersonFunc { get; set; }
+        public Func<Person, bool> EditPersonFunc
+        {
+            get { return _editPersonFunc; }
+            set
+            {
+                _editPersonFunc = value;
+                _selectedPersonViewModel.EditAction = value;
+            }
+        }
 
         private bool CheckSelectedPerson(object obj)
         {
@@ -227,6 +235,7 @@ namespace FamilyTree.ViewModel
         
         private readonly PersonViewModel _selectedPersonViewModel = new PersonViewModel();
         private ICommand _exitCommand;
+        private Func<Person, bool> _editPersonFunc;
 
         public PersonViewModel SelectedPersonViewModel
         {

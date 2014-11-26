@@ -21,7 +21,7 @@
                   SelectedItem="{Binding SelectedPersonViewModel.Person}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ., Converter={utils:PersonNameConverter}}" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding .FullName}" />
                     <GridViewColumn Header="Age" DisplayMemberBinding="{Binding .Age}"/>
                 </GridView>
             </ListView.View>

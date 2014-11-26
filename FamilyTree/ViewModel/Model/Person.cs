@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 using FamilyTree.Utils;
 using NodaTime;
 
 namespace FamilyTree.ViewModel.Model
 {
-    public class Person : ModelBase, IEquatable<Person>
+    public class Person : ModelBase, IEquatable<Person>, IEditableObject
     {
         private int _id;
         private string _firstName;
@@ -38,6 +40,7 @@ namespace FamilyTree.ViewModel.Model
             {
                 _firstName = value;
                 OnPropertyChanged();
+                OnPropertyChanged("FullName");
             }
         }
 
@@ -48,7 +51,13 @@ namespace FamilyTree.ViewModel.Model
             {
                 _lastName = value;
                 OnPropertyChanged();
+                OnPropertyChanged("FullName");
             }
+        }
+
+        public String FullName
+        {
+            get { return PersonNameConverter.GetFullNameOfPerson(this); }
         }
 
         public string BirthFirstName
@@ -56,7 +65,7 @@ namespace FamilyTree.ViewModel.Model
             get { return _birthFirstName; }
             set
             {
-                _birthFirstName = value; 
+                _birthFirstName = value;
                 OnPropertyChanged();
             }
         }
@@ -66,7 +75,7 @@ namespace FamilyTree.ViewModel.Model
             get { return _birthLastName; }
             set
             {
-                _birthLastName = value; 
+                _birthLastName = value;
                 OnPropertyChanged();
             }
         }
@@ -78,6 +87,7 @@ namespace FamilyTree.ViewModel.Model
             {
                 _dateOfBirth = value;
                 OnPropertyChanged();
+                OnPropertyChanged("Age");
             }
         }
 
@@ -88,6 +98,7 @@ namespace FamilyTree.ViewModel.Model
             {
                 _dateOfDeath = value;
                 OnPropertyChanged();
+                OnPropertyChanged("Age");
             }
         }
 
@@ -130,7 +141,7 @@ namespace FamilyTree.ViewModel.Model
                 if (!DateOfBirth.HasValue) return null;
 
                 var now = DateOfDeath.HasValue
-                    ? new LocalDate(DateOfDeath.Value.Year, DateOfDeath.Value.Month, DateOfDeath.Value.Day) 
+                    ? new LocalDate(DateOfDeath.Value.Year, DateOfDeath.Value.Month, DateOfDeath.Value.Day)
                     : new LocalDate(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
                 var birth = new LocalDate(DateOfBirth.Value.Year, DateOfBirth.Value.Month, DateOfBirth.Value.Day);
                 var p = Period.Between(birth, now, PeriodUnits.Years);
@@ -173,6 +184,54 @@ namespace FamilyTree.ViewModel.Model
         {
             return string.Format("{0} {1}", FirstName, LastName);
         }
+
+        #region IEditableObject implementation
+
+        private bool _isInEditMode = false;
+        private Person _editCache;
+
+        public void BeginEdit()
+        {
+            if (_isInEditMode) return;
+            _isInEditMode = true;
+            _editCache = new Person
+            {
+                BirthFirstName = BirthFirstName,
+                BirthLastName = BirthLastName,
+                DateOfBirth = DateOfBirth,
+                DateOfDeath = DateOfDeath,
+                FirstName = FirstName,
+                Gender = Gender,
+                Id = Id,
+                LastName = LastName,
+                Picture = Picture
+            };
+        }
+
+        public void EndEdit()
+        {
+            _isInEditMode = false;
+            _editCache = null;
+        }
+
+        public void CancelEdit()
+        {
+            _isInEditMode = false;
+            BirthFirstName = _editCache.BirthFirstName;
+            BirthLastName = _editCache.BirthLastName;
+            FirstName = _editCache.FirstName;
+            LastName = _editCache.LastName;
+            DateOfBirth = _editCache.DateOfBirth;
+            DateOfDeath = _editCache.DateOfDeath;
+            Gender = _editCache.Gender;
+            Id = _editCache.Id;
+            Picture = _editCache.Picture;
+            _editCache = null;
+
+        }
+
+        #endregion
+
     }
 
     public enum Gender

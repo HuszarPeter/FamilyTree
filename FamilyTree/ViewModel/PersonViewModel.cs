@@ -65,7 +65,28 @@ namespace FamilyTree.ViewModel
         } 
         #endregion
 
+        #region Edit Command
+        public Func<Person, bool> EditAction { get; set; } 
+        private ICommand _editCommand;
+        public ICommand EditCommand
+        {
+            get { return _editCommand ?? (_editCommand = new ActionCommand(this, EditCommandExecute, null)); }
+        }
 
+        private void EditCommandExecute(object obj)
+        {
+            Person.BeginEdit();
+            var ok = EditAction != null && EditAction(Person);
+            if (!ok)
+            {
+                Person.CancelEdit();
+                return;
+            }
+            Person.EndEdit();
+            LocalDataStorage.Instance.UpdatePerson(Person);
+        }
+
+        #endregion
         public Func<byte[]> BrowseForPicture { get; set; } 
         private ICommand _browsePictureCommand;
         public ICommand BrowsePictureCommand

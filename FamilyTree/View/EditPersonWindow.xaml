@@ -74,7 +74,7 @@
                 <DatePicker Grid.Column="2"
                             Grid.Row="3"
                             Style="{StaticResource dt}"
-                            DisplayDate="{Binding Person.DateOfBirth}"/>
+                            SelectedDate="{Binding Person.DateOfBirth}"/>
 
                 <TextBlock Text="Death :"
                          Grid.Column="1"
@@ -84,7 +84,7 @@
                 <DatePicker Grid.Column="2"
                             Grid.Row="4"
                             Style="{StaticResource dt}"
-                            DisplayDate="{Binding Person.DateOfDeath}"/>
+                            SelectedDate="{Binding Person.DateOfDeath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
             </Grid>
         </GroupBox>

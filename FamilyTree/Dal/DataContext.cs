@@ -150,17 +150,18 @@ namespace FamilyTree.Dal
                 throw new Exception(string.Format("No Primary Key found! {0}", typeof(T)));
             }
 
-            var nameValues = dbFields
+            var mqslFields = dbFields
                 .Where(p => !p.DatabaseFieldAttribute.IsPrimaryKey)
-                .Select(p => string.Format("{0}={1}", p.DatabaseFieldAttribute.Name,p.PropertyInfo.GetMySqlCompatiblePropertyValue(entity)));
+                .Select(p => p.GetMysqlQueryParameter(entity))
+                .ToList();
 
             var updateQuery = string.Format("UPDATE {3} SET {0} WHERE {1}={2}", 
-                string.Join(",", nameValues), 
+                string.Join(",", mqslFields.Select(f => string.Format("{0}={1}", f.SourceColumn, f.ParameterName))), 
                 idProp.DatabaseFieldAttribute.Name, 
                 idProp.PropertyInfo.GetMySqlCompatiblePropertyValue(entity),
                 dbTable.Name);
 
-            ExecuteNonQuery(updateQuery);
+            ExecuteNonQuery(updateQuery, mqslFields);
         }
 
         #endregion
