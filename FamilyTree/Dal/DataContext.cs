@@ -221,15 +221,8 @@ namespace FamilyTree.Dal
 
         public List<GenderStatistic> GetGenderStatistics()
         {
-            var query = new StringBuilder();
-            query.AppendLine("select true as ferfi, count(*) as cnt, (select count(*) from szemely) as osszes FROM szemely");
-            query.AppendLine("where szemely.ferfi = 1");
-            query.AppendLine("union");
-            query.AppendLine("select false,count(*) as cnt, (select count(*) from szemely) as osszes FROM szemely");
-            query.AppendLine("where szemely.ferfi = 0");
-
-            var result = ExecuteQuery<GenderStatistic>(query.ToString());
-            return result;
+            var temp = ExecuteQuery<GenderStatistic>("SELECT ferfi, count(*) as cnt, (select count(*) from szemely) as osszes FROM szemely GROUP BY ferfi ORDER BY ferfi");
+            return temp;
         }
 
         public List<AgeStatistic> GetAgeStatistics()

@@ -9,22 +9,17 @@ namespace FamilyTree.Dal.Model
     public class GenderStatistic
     {
         [DatabaseField(Name = "ferfi")]
-        public Int64 Male { get; set; }
-
-        public bool IsMale
-        {
-            get { return Male == 1; }
-        }
+        public bool IsMale { get; set; }
 
         [DatabaseField(Name = "cnt")]
         public Int64 Count { get; set; }
 
         [DatabaseField(Name = "osszes")]
         public Int64 All { get; set; }
-
+    
         public double Percent
         {
-            get { return All > 0 ? 100*(Count/(double) All) : 0.0; }
+            get { return All > 0 ? 100 * (Count / (double)All) : 0.0; }
         }
     }
 }
