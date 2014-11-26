@@ -232,7 +232,45 @@ namespace FamilyTree.ViewModel
         }
 
         #endregion
-        
+
+        #region ShowPersons Without childs command
+        public Action ShowPeoplesWithoutChildsAction { get; set; }
+        private ICommand _showPeoplesWithoutChildsCommand;
+
+        public ICommand ShowPeoplesWithoutChildsCommand
+        {
+            get
+            {
+                return _showPeoplesWithoutChildsCommand ??
+                       (_showPeoplesWithoutChildsCommand =
+                           new ActionCommand(this, ShowPeoplesWithoutChuldsExecute, null));
+            }
+        }
+
+        private void ShowPeoplesWithoutChuldsExecute(object obj)
+        {
+            if (ShowPeoplesWithoutChildsAction != null)
+                ShowPeoplesWithoutChildsAction();
+        } 
+        #endregion
+
+        public Action ShowFertilityAction { get; set; }
+        private ICommand _showFertilityCommand;
+        public ICommand ShowFertilityCommand
+        {
+            get
+            {
+                return _showFertilityCommand ??
+                       (_showFertilityCommand = new ActionCommand(this, ShowFertilityCommandExecute, null));
+            }
+        }
+
+        private void ShowFertilityCommandExecute(object obj)
+        {
+            if (ShowFertilityAction != null)
+                ShowFertilityAction();
+        }
+
         private readonly PersonViewModel _selectedPersonViewModel = new PersonViewModel();
         private ICommand _exitCommand;
         private Func<Person, bool> _editPersonFunc;

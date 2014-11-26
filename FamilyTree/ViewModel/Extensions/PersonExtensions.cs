@@ -25,6 +25,23 @@ namespace FamilyTree.ViewModel.Extensions
             };
         }
 
+        public static PersonWithCount ConvertToViewPersonWithCount(this Dal.Model.PersonWithCount p)
+        {
+            return new PersonWithCount
+            {
+                Id = p.Id,
+                FirstName = p.FirstName,
+                LastName = p.LastName,
+                BirthFirstName = p.BirthFirstName,
+                BirthLastName = p.BirthLastName,
+                DateOfBirth = p.DateOfBirth,
+                DateOfDeath = p.DateOfDeath,
+                Picture = p.ProfilePicture,
+                Gender = p.IsMale ? Gender.Male : Gender.Female,
+                Count = p.Count
+            };
+        }
+
         public static Dal.Model.Person ConvertToDalPerson(this Person p)
         {
             return new Dal.Model.Person

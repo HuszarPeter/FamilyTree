@@ -24,6 +24,8 @@ namespace FamilyTree.View
                 {
                     AskToDeleteFunc = AskDeletePerson,
                     ShowGenderStatisticsAction = ShowGenderStats,
+                    ShowPeoplesWithoutChildsAction = ShowChildlessPeoples,
+                    ShowFertilityAction = ShowFertilityStat,
                     EditPersonFunc = EditPerson
                 };
 
@@ -31,6 +33,24 @@ namespace FamilyTree.View
 
                 _Model.DownloadData();
             };
+        }
+
+        private void ShowFertilityStat()
+        {
+            var frm = new MostFertilePersonsWindow
+            {
+                Owner = this
+            };
+            frm.ShowFertilityList();
+        }
+
+        private void ShowChildlessPeoples()
+        {
+            var frm = new PeoplesWithutChildsWindow
+            {
+                Owner = this
+            };
+            frm.ShowPersonsWithoutChilds();
         }
 
         private bool EditPerson(Person person)

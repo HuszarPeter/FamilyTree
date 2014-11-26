@@ -256,5 +256,29 @@ namespace FamilyTree.Dal
             _connection.Close();
             _connection = null;
         }
+
+        // Select with inner select
+        public List<Person> GetAllPersonsWithoutChilds()
+        {
+            var q = new StringBuilder();
+            q.AppendLine(
+                "select * from szemely WHERE NOT exists( select * from kapcsolat WHERE kapcsolat.szemely_id1 = szemely.szemely_id and kapcsolat.tipus = 1)");
+
+            return ExecuteQuery<Person>(q.ToString());
+        }
+
+        // Join with group by 1
+        public List<PersonWithCount> GetFeritlityList()
+        {
+            var q = new StringBuilder();
+            q.AppendLine(
+                "select sz.szemely_id, sz.keresztnev, sz.vezeteknev, sz.ferfi, sz.halalozas_ideje, sz.leanykori_keresztnev, sz.leanykori_vezeteknev, sz.portre, sz.szuletes_ideje, count(*) as count from szemely as sz, kapcsolat as k");
+            q.AppendLine("where sz.szemely_id = k.szemely_id1 and tipus = 1");
+            q.AppendLine(
+                "group by sz.szemely_id, sz.keresztnev, sz.vezeteknev, sz.ferfi, sz.halalozas_ideje, sz.leanykori_keresztnev, sz.leanykori_vezeteknev, sz.portre, sz.szuletes_ideje");
+            q.AppendLine("order by count(*) desc");
+
+            return ExecuteQuery<PersonWithCount>(q.ToString());
+        }
     }
 }

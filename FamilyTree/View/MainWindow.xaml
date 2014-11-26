@@ -39,6 +39,10 @@
             <MenuItem Header="Statistics">
                 <MenuItem Header="Genders"
                           Command="{Binding ShowGendersStatistics}"></MenuItem>
+                <MenuItem Header="Peoples without childs"
+                          Command="{Binding ShowPeoplesWithoutChildsCommand}"/>
+                <MenuItem Header="Most fertile persons"
+                          Command="{Binding ShowFertilityCommand}"/>
             </MenuItem>
         </Menu>
         <view:PeopleListView DataContext="{Binding}"
