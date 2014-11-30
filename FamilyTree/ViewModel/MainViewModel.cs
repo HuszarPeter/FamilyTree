@@ -12,6 +12,7 @@ using FamilyTree.Dal.Model;
 using FamilyTree.Utils;
 using FamilyTree.ViewModel.Extensions;
 using FamilyTree.ViewModel.Model;
+using Event = FamilyTree.ViewModel.Model.Event;
 using Person = FamilyTree.ViewModel.Model.Person;
 
 namespace FamilyTree.ViewModel
@@ -52,6 +53,17 @@ namespace FamilyTree.ViewModel
             {
                 _editPersonFunc = value;
                 _selectedPersonViewModel.EditAction = value;
+            }
+        }
+
+        private Func<Event, bool> _editEventFunc; 
+        public Func<Event, bool> EditEventFunc
+        {
+            get { return _editEventFunc; }
+            set
+            {
+                _editEventFunc = value;
+                _selectedPersonViewModel.AddNewEventFunc = value;
             }
         }
 

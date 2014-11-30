@@ -20,7 +20,7 @@
                                         BorderBrush="DarkSlateBlue"
                                         Background="DarkSlateBlue"
                                         BorderThickness="1,1,1,0">
-                                    <TextBlock Text="{Binding Date, StringFormat='{}{0:yyyy MMMM dd}'}"
+                                    <TextBlock Text="{Binding Date, StringFormat='{}{0:D}'}"
                                                FontSize="9"
                                                Foreground="White"
                                                HorizontalAlignment="Right"

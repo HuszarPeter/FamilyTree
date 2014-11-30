@@ -17,7 +17,8 @@ namespace FamilyTree.ViewModel.Extensions
             {
                 Id = e.Id,
                 Date = e.Date,
-                Description = e.Description
+                Description = e.Description,
+                PersonId = e.PersonId
             };
         }
 
@@ -30,6 +31,17 @@ namespace FamilyTree.ViewModel.Extensions
                 Description = e.Description,
                 PersonId = e.PersonId,
                 EventType = (GeneratedEventType)e.GeneratedEventType
+            };
+        }
+
+        public static Dal.Model.Event ConvertBackToDalModel(this Event evt)
+        {
+            return new Dal.Model.Event
+            {
+                Id = evt.Id,
+                Date = evt.Date,
+                Description = evt.Description,
+                PersonId = evt.PersonId
             };
         }
     }

@@ -27,13 +27,24 @@ namespace FamilyTree.View
                     ShowPeoplesWithoutChildsAction = ShowChildlessPeoples,
                     ShowFertilityAction = ShowFertilityStat,
                     ShowTimelineAction = ShowTimeline,
-                    EditPersonFunc = EditPerson
+                    EditPersonFunc = EditPerson,
+                    EditEventFunc = EditEvent,
                 };
 
                 DataContext = _Model;
 
                 _Model.DownloadData();
             };
+        }
+
+        private bool EditEvent(Event arg)
+        {
+            var form = new EditEventWindow
+            {
+                Owner = this
+            };
+            var r = form.ShowDialog(arg);
+            return r.HasValue && r.Value;
         }
 
         private void ShowTimeline()

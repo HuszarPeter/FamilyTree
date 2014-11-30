@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="FamilyTree.View.EventList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:utils="clr-namespace:FamilyTree.Utils"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid utils:GridUtils.Rows="Auto,*">
+            <ToolBar>
+                <Button Content="New"
+                        Command="{Binding NewEventCommand}"/>
+                <Button Content="Modify"
+                        Command="{Binding ModifyCommand}"/>
+                <Button Content="Delete"
+                        Command="{Binding DeleteEventCommand}"/>
+            </ToolBar>
+        <ListView ItemsSource="{Binding Events}"
+                  SelectedItem="{Binding SelectedEvent}"
+                  Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date, StringFormat='{}{0:D}'}"/>
+                    <GridViewColumn Header="Text" DisplayMemberBinding="{Binding Text}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

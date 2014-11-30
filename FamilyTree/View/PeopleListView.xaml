@@ -16,22 +16,25 @@
            </CollectionViewSource.SortDescriptions>
        </CollectionViewSource>
    </UserControl.Resources> 
-    <Grid utils:GridUtils.Columns="3*,3,5*">
+    <Grid utils:GridUtils.Columns="3*,3,5*"
+          x:Name="root">
         <ListView ItemsSource="{Binding Source={StaticResource orderedPersons}}"
                   SelectedItem="{Binding SelectedPersonViewModel.Person}">
-            <ListView.Resources>
+            <!--<ListView.Resources>
                 <Style TargetType="ListViewItem">
                     <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ContextMenu>
-                                <MenuItem Header="1"></MenuItem>
+                            <ContextMenu DataContext="{Binding DataContext, ElementName=root}">
+                                <MenuItem Header="Edit"
+                                          Command="{Binding DataContext.RemoveCurrentPersonCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"></MenuItem>
                                 <Separator/>
-                                <MenuItem Header="2"></MenuItem>
+                                <MenuItem Header="Delete"
+                                          Command="{Binding dasdasd}"></MenuItem>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </ListView.Resources>
+            </ListView.Resources>-->
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding .FullName}" />

@@ -226,6 +226,25 @@ namespace FamilyTree.Dal
 
         #endregion
 
+        #region Events
+        public void AddEvent(Event evt)
+        {
+            Insert(evt);
+        }
+
+        public void UpdateEvent(Event evt)
+        {
+            Update(evt);
+        }
+
+        public void DeleteEvent(Event evt)
+        {
+            var p = new MySqlParameter("?p", evt.Id);
+            const string query2 = "DELETE FROM esemeny WHERE esemeny_id = ?p";
+            ExecuteNonQuery(query2, new List<MySqlParameter> { p });
+        } 
+        #endregion
+
         public List<GenderStatistic> GetGenderStatistics()
         {
             var temp =
@@ -330,5 +349,7 @@ namespace FamilyTree.Dal
                 "select cast(szemely_id as signed) as szemely_id, count(*) as count from (select esemeny.szemely_id as szemely_id from esemeny union all select resztvevo.resztvevo_id as szemely_id from resztvevo) as t group by szemely_id order by count(*) desc";
             return ExecuteQuery<PersonIdAndCounter>(query);
         }
+
+       
     }
 }

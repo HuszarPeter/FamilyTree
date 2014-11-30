@@ -6,6 +6,7 @@
              xmlns:utils="clr-namespace:FamilyTree.Utils"
              xmlns:model="clr-namespace:FamilyTree.ViewModel.Model"
              xmlns:Properties="clr-namespace:FamilyTree.Properties"
+             xmlns:view="clr-namespace:FamilyTree.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -165,10 +166,7 @@
                           Grid.Row="3"
                           Grid.ColumnSpan="2"
                           Height="200">
-                    <Grid>
-                        <ListBox ItemsSource="{Binding Events}" DisplayMemberPath="Text"/>
-
-                    </Grid>
+                    <view:EventList DataContext="{Binding .}" />
                 </GroupBox>
                 
             </Grid>

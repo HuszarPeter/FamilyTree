@@ -92,6 +92,7 @@
     <Compile Include="Dal\Model\PersonWithCount.cs" />
     <Compile Include="Dal\Model\Relation.cs" />
     <Compile Include="Dal\Model\YearStatistics.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Utils\ActionCommand.cs" />
     <Compile Include="Utils\AgeKeyToTextConverter.cs" />
     <Compile Include="Utils\Extensions.cs" />
@@ -115,8 +116,14 @@
     <Compile Include="ViewModel\PersonStatisticsViewModel.cs" />
     <Compile Include="ViewModel\PersonViewModel.cs" />
     <Compile Include="ViewModel\TimelineViewModel.cs" />
+    <Compile Include="View\EditEventWindow.xaml.cs">
+      <DependentUpon>EditEventWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditPersonWindow.xaml.cs">
       <DependentUpon>EditPersonWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EventList.xaml.cs">
+      <DependentUpon>EventList.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GenderStatisticsWindow.xaml.cs">
       <DependentUpon>GenderStatisticsWindow.xaml</DependentUpon>
@@ -136,7 +143,15 @@
     <Compile Include="View\TimelineWindow.xaml.cs">
       <DependentUpon>TimelineWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\EditEventWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EditPersonWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EventList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

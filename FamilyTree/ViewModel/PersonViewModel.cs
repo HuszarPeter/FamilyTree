@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media;
 using FamilyTree.Dal;
 using FamilyTree.Dal.Model;
 using FamilyTree.Utils;
@@ -30,6 +32,18 @@ namespace FamilyTree.ViewModel
         }
 
         #region Events
+
+        private Event _selectedEvent;
+        public Event SelectedEvent
+        {
+            get { return _selectedEvent; }
+            set
+            {
+                _selectedEvent = value;
+                OnPropertyChanged();
+            }
+        }
+
         private List<Event> _events = null;
         public List<Event> Events
         {
@@ -130,7 +144,98 @@ namespace FamilyTree.ViewModel
         }
 
         #endregion
-        
+
+        #region Delete Events
+        private ICommand _DeleteEventCommand;
+        public ICommand DeleteEventCommand
+        {
+            get { return _DeleteEventCommand ?? (_DeleteEventCommand = new ActionCommand(this, DeleteEventCommandExecute, CanDeleteEventCommandExecute)); }
+        }
+
+        private bool CanDeleteEventCommandExecute(Object param)
+        {
+            return SelectedEvent != null;
+        }
+
+        private void DeleteEventCommandExecute(Object param)
+        {
+            using (var context = new DataContext())
+            {
+                context.DeleteEvent(SelectedEvent.ConvertBackToDalModel());
+            }
+            SelectedEvent = null;
+            RefreshEvents();
+        } 
+        #endregion
+
+        #region New Event
+
+        public Func<Event, bool> AddNewEventFunc; 
+        private ICommand _newEventCommand;
+        public ICommand NewEventCommand
+        {
+            get { return _newEventCommand ?? (_newEventCommand = new ActionCommand(this, NewEventExecuted, null)); }
+        }
+
+        private void NewEventExecuted(object obj)
+        {
+            var newEvent = new Event
+            {
+                Id = -1,
+                Description = "<<>>",
+                Date = DateTime.Now.Date,
+                PersonId = Person.Id
+            };
+            if(AddNewEventFunc != null && AddNewEventFunc(newEvent))
+            {
+                // insert new event!
+                using (var context = new DataContext())
+                {
+                    context.AddEvent(newEvent.ConvertBackToDalModel());
+                    RefreshEvents();
+                }
+            }
+        } 
+        #endregion
+
+        #region Modify Event Command
+        private ICommand _ModifyCommand;
+        public ICommand ModifyCommand
+        {
+            get { return _ModifyCommand ?? (_ModifyCommand = new ActionCommand(this, ModifyCommandExecute, CanModifyCommandExecute)); }
+        }
+
+        private bool CanModifyCommandExecute(Object param)
+        {
+            return SelectedEvent != null;
+        }
+
+        private void ModifyCommandExecute(Object param)
+        {
+            SelectedEvent.BeginEdit();
+            if (AddNewEventFunc != null && AddNewEventFunc(SelectedEvent))
+            {
+                using (var context = new DataContext())
+                {
+                    context.UpdateEvent(SelectedEvent.ConvertBackToDalModel());
+
+                    SelectedEvent.EndEdit();
+                    RefreshEvents();
+                    return;
+
+                }
+            }
+            SelectedEvent.CancelEdit();
+        } 
+        #endregion
+
+        private void RefreshEvents()
+        {
+            SelectedEvent = null;
+            _events = null;
+            OnPropertyChanged("Events");
+        }
+
         public IEnumerable<Person> Childs
         {
             get { return GetRelativesByType(RelationType.Child); }
