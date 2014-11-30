@@ -94,14 +94,76 @@
           utils:GridUtils.Rows="Auto,Auto,*">
         <Border Grid.ColumnSpan="2"
                 Grid.Row="0">
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Margin="0">
-                <Button Content="Edit"
-                        Margin="3"
-                        MinWidth="40"
-                        Command="{Binding EditCommand}"/>
-            </StackPanel>
+            <ToolBar>
+                <Button MinWidth="40"
+                        Command="{Binding EditCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16"
+                               Height="16"
+                               Source="/FamilyTree;component/Res/edit_user-26.png"/>
+                        <TextBlock Text="Edit"
+                                   Margin="3,1,1,1"/>
+                    </StackPanel>
+                </Button>
+                <Button MinWidth="40"
+                        Command="{Binding DeletePersonCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16"
+                               Height="16"
+                               Source="/FamilyTree;component/Res/remove_user-26.png"/>
+                        <TextBlock Text="Delete"
+                                   Margin="3,1,1,1"/>
+                    </StackPanel>
+                </Button>
+                <Separator/>
+                <Button Command="{Binding AddFatherCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16"
+                               Height="16"
+                               Source="/FamilyTree;component/Res/add_user-26.png"/>
+                        <TextBlock Text="Father"
+                                   Margin="3,1,1,1"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding AddMotherCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16"
+                               Height="16"
+                               Source="/FamilyTree;component/Res/add_user-26.png"/>
+                        <TextBlock Text="Mother"
+                                   Margin="3,1,1,1"/>
+                    </StackPanel>
+                </Button>
+                <Separator/>
+                <Button Command="{Binding AddSpouseCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16"
+                               Height="16"
+                               Source="/FamilyTree;component/Res/add_user-26.png"/>
+                        <TextBlock Text="Spouse"
+                                   Margin="3,1,1,1"/>
+                    </StackPanel>
+                </Button>
+                <Separator/>
+                <Button Command="{Binding AddSiblingCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16"
+                               Height="16"
+                               Source="/FamilyTree;component/Res/add_user-26.png"/>
+                        <TextBlock Text="Sibling"
+                                   Margin="3,1,1,1"/>
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding AddChildCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16"
+                               Height="16"
+                               Source="/FamilyTree;component/Res/add_user-26.png"/>
+                        <TextBlock Text="Child"
+                                   Margin="3,1,1,1"/>
+                    </StackPanel>
+                </Button>
+            </ToolBar>
         </Border>
         <ContentControl ContentTemplate="{StaticResource PersonPictureTemplate}"
                         Content="{Binding Person}"

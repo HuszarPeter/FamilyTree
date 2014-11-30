@@ -44,6 +44,7 @@ namespace FamilyTree.ViewModel.Extensions
 
         public static Dal.Model.Person ConvertToDalPerson(this Person p)
         {
+            if (p == null) return null;
             return new Dal.Model.Person
             {
                 Id = p.Id,

@@ -10,6 +10,7 @@ using FamilyTree.Dal;
 using FamilyTree.Dal.Model;
 using FamilyTree.Utils;
 using FamilyTree.ViewModel.Extensions;
+using FamilyTree.ViewModel.Model;
 using Event = FamilyTree.ViewModel.Model.Event;
 using Person = FamilyTree.ViewModel.Model.Person;
 
@@ -44,7 +45,7 @@ namespace FamilyTree.ViewModel
             }
         }
 
-        private List<Event> _events = null;
+        private List<Event> _events;
         public List<Event> Events
         {
             get { return _events ?? (_events = DowloadEvents()); }
@@ -52,13 +53,141 @@ namespace FamilyTree.ViewModel
 
         private List<Event> DowloadEvents()
         {
+            if(Person == null) return new List<Event>();
             using (var context = new DataContext())
             {
                 return context.GetPersonEvents(Person.ConvertToDalPerson()).Select(e => e.ConvertToModelEvent()).ToList();
             }
         }
         #endregion
-        
+
+        public ICommand DeletePersonCommand { get; set; }
+
+        private bool CheckSelectedPerson(object arg)
+        {
+            return Person != null;
+        }
+
+        #region Add Child Command
+        private ICommand _addChildCommand;
+        public ICommand AddChildCommand
+        {
+            get { return _addChildCommand ?? (_addChildCommand = new ActionCommand(this, AddChildExecute, CheckSelectedPerson)); }
+        }
+
+        private void AddChildExecute(object obj)
+        {
+            var child = new Person
+            {
+                FirstName = "Child of",
+                LastName = PersonNameConverter.GetFullNameOfPerson(Person)
+            };
+            var ok = EditAction != null && EditAction(child);
+            if (!ok) return;
+            // Ask the user about the name of the new child and her/his data
+            LocalDataStorage.Instance.AddChild(Person, child);
+        }
+        #endregion
+
+        #region Add Father Command
+        private ICommand _addFatherCommand;
+        public ICommand AddFatherCommand
+        {
+            get
+            {
+                return _addFatherCommand ?? (_addFatherCommand = new ActionCommand(this, AddFatherCommandExecute, CanAddFatherCommandExecute));
+            }
+        }
+
+        private bool CanAddFatherCommandExecute(object arg)
+        {
+            return Person != null && Parents.FirstOrDefault(p => p.IsMale) == null;
+        }
+
+        private void AddFatherCommandExecute(object obj)
+        {
+            AddParent(Gender.Male);
+        }
+        #endregion
+
+        #region Add Mother Command
+        private ICommand _addMotherCommand;
+        public ICommand AddMotherCommand
+        {
+            get
+            {
+                return _addMotherCommand ?? (_addMotherCommand = new ActionCommand(this, AddMotherCommandExecute, CanAddMotherCommandExecute));
+            }
+        }
+
+        private bool CanAddMotherCommandExecute(object arg)
+        {
+            return Person != null && Parents.FirstOrDefault(p => p.IsMale == false) == null;
+        }
+
+        private void AddMotherCommandExecute(object obj)
+        {
+            AddParent(Gender.Female);
+        }
+
+        #endregion
+
+        #region Add Sibling command
+        private ICommand _addSiblingCommand;
+        public ICommand AddSiblingCommand
+        {
+            get
+            {
+                return _addSiblingCommand ??
+                       (_addSiblingCommand = new ActionCommand(this, AddSiblingCommandExecute, CheckSelectedPerson));
+            }
+        }
+
+        private void AddSiblingCommandExecute(object obj)
+        {
+            var sibling = new Person
+            {
+                FirstName = "Sibling of",
+                LastName = Person.FullName
+            };
+            var ok = EditAction != null && EditAction(sibling);
+            if (!ok) return;
+            LocalDataStorage.Instance.AddNewPersonWithRelation(Person, sibling, RelationType.Sibling);
+        }
+
+        #endregion
+
+        #region Add Spouse Command
+        private ICommand _addSpouseCommand;
+        public ICommand AddSpouseCommand
+        {
+            get
+            {
+                return _addSpouseCommand ?? (_addSpouseCommand = new ActionCommand(this, AddSpouseCommandExecute, CanAddSpouseCommandExecute));
+            }
+        }
+
+        private bool CanAddSpouseCommandExecute(object arg)
+        {
+            return Person != null && !Spouses.Any();
+        }
+
+        private void AddSpouseCommandExecute(object obj)
+        {
+            var spouse = new Person
+            {
+                FirstName = "Spouse of",
+                LastName = Person.FullName,
+                Gender = Person.Gender == Gender.Male ? Gender.Female : Gender.Male
+            };
+            var ok = EditAction != null && EditAction(spouse);
+            if (!ok) return;
+            LocalDataStorage.Instance.AddNewPersonWithRelation(Person, spouse, RelationType.Spouse);
+
+        }
+
+        #endregion
+
         #region Select another person Command
         private ICommand _selectPersonCommand;
         public ICommand SelectPersonCommand
@@ -272,6 +401,25 @@ namespace FamilyTree.ViewModel
             LocalDataStorage.Instance.Persons.CollectionChanged += (s, e) => NotifyRelationsChanged();
             LocalDataStorage.Instance.Relations.CollectionChanged += (s, e) => NotifyRelationsChanged();
         }
+
+        private void AddParent(Gender gender)
+        {
+            var fullName = Person.FullName;
+
+            if (Parents.All(p => p.Gender != gender))
+            {
+                var parent = new Person
+                {
+                    FirstName = gender == Gender.Female ? "Mother of" : "Father of",
+                    Gender = gender,
+                    LastName = fullName
+                };
+                var ok = EditAction != null && EditAction(parent);
+                if (!ok) return;
+                LocalDataStorage.Instance.AddNewPersonWithRelation(Person, parent, RelationType.Parent);
+            }
+        }
+
 
         private void NotifyRelationsChanged()
         {

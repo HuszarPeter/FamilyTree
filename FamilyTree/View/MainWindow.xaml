@@ -4,7 +4,7 @@
         xmlns:view="clr-namespace:FamilyTree.View"
         xmlns:utils="clr-namespace:FamilyTree.Utils"
         xmlns:properties="clr-namespace:FamilyTree.Properties"
-        Title="Family tree" Height="720" Width="650"
+        Title="Family tree" Height="720" Width="790"
         WindowStartupLocation="CenterScreen" Icon="/FamilyTree;component/Res/deciduous_tree-48.png">
     <Window.InputBindings>
         <KeyBinding Command="{Binding RefreshCommand}" Key="F5"/>

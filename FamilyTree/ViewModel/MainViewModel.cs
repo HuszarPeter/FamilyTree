@@ -46,13 +46,14 @@ namespace FamilyTree.ViewModel
 
         #endregion
 
+        private Func<Person, bool> _editPersonFunc;
         public Func<Person, bool> EditPersonFunc
         {
             get { return _editPersonFunc; }
             set
             {
                 _editPersonFunc = value;
-                _selectedPersonViewModel.EditAction = value;
+                SelectedPersonViewModel.EditAction = value;
             }
         }
 
@@ -63,7 +64,7 @@ namespace FamilyTree.ViewModel
             set
             {
                 _editEventFunc = value;
-                _selectedPersonViewModel.AddNewEventFunc = value;
+                SelectedPersonViewModel.AddNewEventFunc = value;
             }
         }
 
@@ -73,127 +74,39 @@ namespace FamilyTree.ViewModel
         }
 
         #region Add Father Command
-        private ICommand _addFatherCommand;
         public ICommand AddFatherCommand
         {
-            get
-            {
-                return _addFatherCommand ?? (_addFatherCommand = new ActionCommand(this, AddFatherCommandExecute, CheckSelectedPerson));
-            }
+            get { return _selectedPersonViewModel.AddFatherCommand; }
         }
-
-        private void AddFatherCommandExecute(object obj)
-        {
-            AddParent(obj, Gender.Male);
-        } 
         #endregion
 
         #region Add Mother command
-        private ICommand _addMotherCommand;
         public ICommand AddMotherCommand
         {
-            get
-            {
-                return _addMotherCommand ?? (_addMotherCommand = new ActionCommand(this, AddMotherCommandExecute, CheckSelectedPerson));
-            }
+            get { return _selectedPersonViewModel.AddMotherCommand; }
         }
 
-        private void AddMotherCommandExecute(object obj)
-        {
-            AddParent(obj, Gender.Female);
-        }
         #endregion
         
-        private void AddParent(object obj, Gender gender)
-        {
-            var cPerson = SelectedPersonViewModel.Person;
-            var fullName = PersonNameConverter.GetFullNameOfPerson(SelectedPersonViewModel.Person);
-
-            if (SelectedPersonViewModel.Parents.All(p => p.Gender != gender))
-            {
-                var parent = new Person
-                {
-                    FirstName = gender == Gender.Female ? "Mother of" : "Father of",
-                    Gender = gender,
-                    LastName = fullName
-                };
-                var ok = EditPersonFunc != null && EditPersonFunc(parent);
-                if(!ok) return;
-                LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, parent, RelationType.Parent);
-            }
-        }
-
         #region Add Child Command
-        private ICommand _addChildCommand;
         public ICommand AddChildCommand
         {
-            get { return _addChildCommand ?? (_addChildCommand = new ActionCommand(this, AddChildExecute, CheckSelectedPerson)); }
-        }
-
-        private void AddChildExecute(object obj)
-        {
-            var child = new Person
-            {
-                FirstName = "Child of",
-                LastName = PersonNameConverter.GetFullNameOfPerson(SelectedPersonViewModel.Person)
-            };
-            var ok = EditPersonFunc != null && EditPersonFunc(child);
-            if(!ok) return;
-            // Ask the user about the name of the new child and her/his data
-            LocalDataStorage.Instance.AddChild(SelectedPersonViewModel.Person, child);
+            get { return SelectedPersonViewModel.AddChildCommand; }
         }
         #endregion
 
         #region Add Sibling command
-        private ICommand _addSiblingCommand;
         public ICommand AddSiblingCommand
         {
-            get
-            {
-                return _addSiblingCommand ??
-                       (_addSiblingCommand = new ActionCommand(this, AddSiblingCommandExecute, CheckSelectedPerson));
-            }
+            get { return _selectedPersonViewModel.AddSiblingCommand; }
         }
-
-        private void AddSiblingCommandExecute(object obj)
-        {
-            var sibling = new Person
-            {
-                FirstName = "Sibling of",
-                LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName
-            };
-            var ok = EditPersonFunc != null && EditPersonFunc(sibling);
-            if(!ok) return;
-            LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, sibling, RelationType.Sibling);
-        }
-
         #endregion
 
-        #region Add spouse Command
-
-        private ICommand _addSpouseCommand;
+        #region Add Spouse Command
         public ICommand AddSpouseCommand
         {
-            get
-            {
-                return _addSpouseCommand ?? (_addSpouseCommand = new ActionCommand(this, AddSpouseCommandExecute, CheckSelectedPerson));
-            }
+            get { return SelectedPersonViewModel.AddSpouseCommand; }
         }
-
-        private void AddSpouseCommandExecute(object obj)
-        {
-            var spouse = new Person
-            {
-                FirstName = "Spouse of",
-                LastName = SelectedPersonViewModel.Person.FirstName + " " + SelectedPersonViewModel.Person.LastName,
-                Gender = SelectedPersonViewModel.Person.Gender == Gender.Male ? Gender.Female : Gender.Male
-            };
-            var ok = EditPersonFunc != null && EditPersonFunc(spouse);
-            if(!ok) return;
-            LocalDataStorage.Instance.AddNewPersonWithRelation(SelectedPersonViewModel.Person, spouse, RelationType.Spouse);
-
-        }
-
         #endregion
 
         #region Remove current person Command
@@ -300,13 +213,18 @@ namespace FamilyTree.ViewModel
                 ShowTimelineAction();
         }
 
-        private readonly PersonViewModel _selectedPersonViewModel = new PersonViewModel();
+        private PersonViewModel _selectedPersonViewModel;
         private ICommand _exitCommand;
-        private Func<Person, bool> _editPersonFunc;
 
         public PersonViewModel SelectedPersonViewModel
         {
-            get { return _selectedPersonViewModel; }
+            get
+            {
+                return _selectedPersonViewModel ?? (_selectedPersonViewModel = new PersonViewModel
+                {
+                    DeletePersonCommand = RemoveCurrentPersonCommand,
+                });
+            }
         }
 
         public ObservableCollection<Person> Persons
