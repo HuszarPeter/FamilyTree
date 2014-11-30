@@ -89,7 +89,7 @@ namespace FamilyTree.View
 
         private void ShowGenderStats()
         {
-            var win = new GenderStatisticsWindow();
+            var win = new GeneralStatisticsWindow();
             win.Owner = this;
             win.ShowDialog();
 

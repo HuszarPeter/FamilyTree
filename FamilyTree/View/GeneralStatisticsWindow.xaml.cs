@@ -18,11 +18,11 @@ namespace FamilyTree.View
     /// <summary>
     /// Interaction logic for GenderStatisticsWindow.xaml
     /// </summary>
-    public partial class GenderStatisticsWindow : Window
+    public partial class GeneralStatisticsWindow : Window
     {
         private GenderStatisticsViewModel _model;
 
-        public GenderStatisticsWindow()
+        public GeneralStatisticsWindow()
         {
             InitializeComponent();
             Loaded += (s, e) =>

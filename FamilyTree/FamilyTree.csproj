@@ -125,8 +125,8 @@
     <Compile Include="View\EventList.xaml.cs">
       <DependentUpon>EventList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GenderStatisticsWindow.xaml.cs">
-      <DependentUpon>GenderStatisticsWindow.xaml</DependentUpon>
+    <Compile Include="View\GeneralStatisticsWindow.xaml.cs">
+      <DependentUpon>GeneralStatisticsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MostFertilePersonsWindow.xaml.cs">
       <DependentUpon>MostFertilePersonsWindow.xaml</DependentUpon>
@@ -155,7 +155,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GenderStatisticsWindow.xaml">
+    <Page Include="View\GeneralStatisticsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

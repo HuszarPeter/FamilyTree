@@ -37,7 +37,7 @@
                               Command="{Binding AddChildCommand}"/>
             </MenuItem>
             <MenuItem Header="Statistics">
-                <MenuItem Header="Genders"
+                <MenuItem Header="General"
                           Command="{Binding ShowGendersStatistics}"></MenuItem>
                 <MenuItem Header="Peoples without childs"
                           Command="{Binding ShowPeoplesWithoutChildsCommand}"/>

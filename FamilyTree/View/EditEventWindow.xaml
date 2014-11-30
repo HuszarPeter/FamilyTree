@@ -5,7 +5,7 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         MinWidth="300"
-        Title="EditEventWindow" Height="300" Width="300">
+        Title="EditEventWindow" Height="300" Width="300" Icon="/FamilyTree;component/Res/deciduous_tree-48.png" ResizeMode="NoResize">
     <Grid utils:GridUtils.Rows="Auto,Auto,*,Auto">
         <DatePicker Margin="5"
                     SelectedDate="{Binding Event.Date}"/>
