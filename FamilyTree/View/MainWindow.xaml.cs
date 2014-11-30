@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using FamilyTree.ViewModel;
@@ -29,12 +30,24 @@ namespace FamilyTree.View
                     ShowTimelineAction = ShowTimeline,
                     EditPersonFunc = EditPerson,
                     EditEventFunc = EditEvent,
+                    SelectPersonFunc = SelectPerson,
                 };
 
                 DataContext = _Model;
 
                 _Model.DownloadData();
             };
+        }
+
+        private Person SelectPerson(Func<Person, bool> predicate)
+        {
+            var form = new SelectPerson
+            {
+                Owner = this
+            };
+
+            var result = form.ShowSelector(LocalDataStorage.Instance.Persons.Where(predicate));
+            return result;
         }
 
         private bool EditEvent(Event arg)

@@ -68,6 +68,17 @@ namespace FamilyTree.ViewModel
             }
         }
 
+        private Func<Func<Person, bool>, Person> _selectPersonFunc;
+        public Func<Func<Person, bool>, Person> SelectPersonFunc
+        {
+            get { return _selectPersonFunc; }
+            set
+            {
+                _selectPersonFunc = value;
+                SelectedPersonViewModel.SelectPersonFunc = value;
+            }
+        }
+
         private bool CheckSelectedPerson(object obj)
         {
             return SelectedPersonViewModel.Person != null;

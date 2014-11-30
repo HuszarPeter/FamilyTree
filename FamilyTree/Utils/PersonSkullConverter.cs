@@ -19,6 +19,10 @@ namespace FamilyTree.Utils
             return Converter;
         }
 
+        public PersonSkullConverter()
+        {
+        }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var person = value as Person;

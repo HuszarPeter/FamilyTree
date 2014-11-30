@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:utils="clr-namespace:FamilyTree.Utils"
              xmlns:model="clr-namespace:FamilyTree.ViewModel.Model"
-             xmlns:Properties="clr-namespace:FamilyTree.Properties"
+             xmlns:properties="clr-namespace:FamilyTree.Properties"
              xmlns:view="clr-namespace:FamilyTree.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -55,10 +55,10 @@
                   Tag="{Binding DataContext, ElementName=RootGrid}">
                 <Grid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="{x:Static Properties:Resources.MenuItemHeaderRemoveConnection}"
+                        <MenuItem Header="{x:Static properties:Resources.MenuItemHeaderRemoveConnection}"
                                   Command="{Binding PlacementTarget.Tag.RemoveConnectionCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                   CommandParameter="{Binding}"/>
-                        <MenuItem Header="{x:Static Properties:Resources.MenuItemHeaderGoTo}"
+                        <MenuItem Header="{x:Static properties:Resources.MenuItemHeaderGoTo}"
                                   Command="{Binding PlacementTarget.Tag.SelectPersonCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                   CommandParameter="{Binding}"/>
                     </ContextMenu>
@@ -196,8 +196,31 @@
             <Grid utils:GridUtils.Rows="Auto,Auto,Auto,Auto,*"
                   utils:GridUtils.Columns="*,Auto">
                 <GroupBox Header="Parents">
-                    <ItemsControl ItemsSource="{Binding Parents}"
-                              Style="{StaticResource WrappedRelativeItemsControl}"/>
+                    <Grid utils:GridUtils.Rows="Auto,*">
+                        <ToolBar>
+                            <Button Command="{Binding SetFatherCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16"
+                                           Height="16"
+                                           Source="/FamilyTree;component/Res/find_user-26.png"/>
+                                    <TextBlock Text="Set father"
+                                               Margin="3,1,1,1"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding SetMotherCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16"
+                                           Height="16"
+                                           Source="/FamilyTree;component/Res/find_user-26.png"/>
+                                    <TextBlock Text="Set mother"
+                                               Margin="3,1,1,1"/>
+                                </StackPanel>
+                            </Button>
+                        </ToolBar>
+                        <ItemsControl Grid.Row="1" 
+                                      ItemsSource="{Binding Parents}"
+                                      Style="{StaticResource WrappedRelativeItemsControl}"/>
+                    </Grid>
                 </GroupBox>
 
                 <GroupBox Header="Spouse" Grid.Column="1">

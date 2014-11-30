@@ -132,6 +132,50 @@ namespace FamilyTree.ViewModel
 
         #endregion
 
+        public Func<Func<Person, bool>, Person> SelectPersonFunc; 
+
+        #region Set Father command
+        private ICommand _setFatherCommand;
+        public ICommand SetFatherCommand
+        {
+            get { return _setFatherCommand ?? (_setFatherCommand = new ActionCommand(this, SetFatherCommandExecute, CanSetFatherCommandExecute)); }
+        }
+
+        private bool CanSetFatherCommandExecute(Object param)
+        {
+            return Person != null && Parents.FirstOrDefault(p => p.IsMale) == null;
+        }
+
+        private void SetFatherCommandExecute(Object param)
+        {
+            if(SelectPersonFunc == null) return;
+            var selected = SelectPersonFunc(p => (p.IsMale && (p.Age > Person.Age || !p.Age.HasValue)));
+            if(selected == null) return;
+            LocalDataStorage.Instance.AddNewPersonWithRelation(selected, Person, RelationType.Child);
+        } 
+        #endregion
+
+        #region Set Mother Command
+        private ICommand _setMotherCommand;
+        public ICommand SetMotherCommand
+        {
+            get { return _setMotherCommand ?? (_setMotherCommand = new ActionCommand(this, SetMotherCommandExecute, CanSetMotherCommandExecute)); }
+        }
+
+        private bool CanSetMotherCommandExecute(Object param)
+        {
+            return Person != null && Parents.FirstOrDefault(p => !p.IsMale) == null;
+        }
+
+        private void SetMotherCommandExecute(Object param)
+        {
+            if (SelectPersonFunc == null) return;
+            var selected = SelectPersonFunc(p => (!p.IsMale && (p.Age > Person.Age || !p.Age.HasValue)));
+            if (selected == null) return;
+            LocalDataStorage.Instance.AddNewPersonWithRelation(selected, Person, RelationType.Child);
+        }
+        #endregion
+
         #region Add Sibling command
         private ICommand _addSiblingCommand;
         public ICommand AddSiblingCommand
