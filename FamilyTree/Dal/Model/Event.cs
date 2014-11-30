@@ -17,6 +17,9 @@ namespace FamilyTree.Dal.Model
 
         [DatabaseField(Name = "megnevezes")]
         public string Description { get; set; }
+
+        [DatabaseField(Name = "szemely_id")]
+        public int PersonId { get; set; }
     }
 
     public enum GeneratedEventType

@@ -16,7 +16,7 @@
         </Style>
     </Window.Resources>
     <Grid utils:GridUtils.Columns="*,*"
-          utils:GridUtils.Rows="Auto,*">
+          utils:GridUtils.Rows="Auto,Auto,*">
         <GroupBox Header="Genders">
             <ItemsControl ItemsSource="{Binding Statistics}"
                           MinWidth="150">
@@ -56,6 +56,51 @@
                                        Style="{StaticResource textLabel}"/>
                             <TextBlock Grid.Column="1"
                                        Text="{Binding Number}"
+                                       Style="{StaticResource text}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+        <GroupBox Header="Events by year"
+                  Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding EventsByYear}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid utils:GridUtils.Columns="4*,3*">
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding Year}"
+                                       Style="{StaticResource textLabel}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Count}"
+                                       Style="{StaticResource text}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+        <GroupBox Header="Most event participation"
+                  Grid.Row="1"
+                  Grid.Column="1">
+            <ItemsControl ItemsSource="{Binding MostParticipatingPersons}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid utils:GridUtils.Columns="4*,3*">
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding FullName}"
+                                       Style="{StaticResource textLabel}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Count}"
                                        Style="{StaticResource text}"/>
                         </Grid>
                     </DataTemplate>

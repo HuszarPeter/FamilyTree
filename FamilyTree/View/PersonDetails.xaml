@@ -130,7 +130,7 @@
                       Grid.Row="2"
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">
-            <Grid utils:GridUtils.Rows="Auto,Auto,Auto,*"
+            <Grid utils:GridUtils.Rows="Auto,Auto,Auto,Auto,*"
                   utils:GridUtils.Columns="*,Auto">
                 <GroupBox Header="Parents">
                     <ItemsControl ItemsSource="{Binding Parents}"
@@ -159,6 +159,16 @@
                       Grid.Row="2">
                     <ItemsControl ItemsSource="{Binding Childs}"
                          Style="{StaticResource WrappedRelativeItemsControl}"/>
+                </GroupBox>
+                
+                <GroupBox Header="Events"
+                          Grid.Row="3"
+                          Grid.ColumnSpan="2"
+                          Height="200">
+                    <Grid>
+                        <ListBox ItemsSource="{Binding Events}" DisplayMemberPath="Text"/>
+
+                    </Grid>
                 </GroupBox>
                 
             </Grid>

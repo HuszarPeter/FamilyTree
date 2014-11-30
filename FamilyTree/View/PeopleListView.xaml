@@ -19,6 +19,19 @@
     <Grid utils:GridUtils.Columns="3*,3,5*">
         <ListView ItemsSource="{Binding Source={StaticResource orderedPersons}}"
                   SelectedItem="{Binding SelectedPersonViewModel.Person}">
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="1"></MenuItem>
+                                <Separator/>
+                                <MenuItem Header="2"></MenuItem>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Resources>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding .FullName}" />

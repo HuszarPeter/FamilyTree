@@ -57,5 +57,25 @@ namespace FamilyTree.ViewModel.Extensions
                 ProfilePicture = p.Picture
             };
         }
+
+        public static PersonWithCount ConvertToViewPersonWithCount(this Dal.Model.PersonIdAndCounter p)
+        {
+            var person = LocalDataStorage.Instance.Persons.FirstOrDefault(x => x.Id == p.PersonId);
+            if (person == null) return null;
+
+            return new PersonWithCount
+            {
+                Id = person.Id,
+                FirstName = person.FirstName,
+                LastName = person.LastName,
+                BirthFirstName = person.BirthFirstName,
+                BirthLastName = person.BirthLastName,
+                DateOfBirth = person.DateOfBirth,
+                DateOfDeath = person.DateOfDeath,
+                Picture = person.Picture,
+                Gender = person.IsMale ? Gender.Male : Gender.Female,
+                Count = p.Counter
+            };
+        }
     }
 }

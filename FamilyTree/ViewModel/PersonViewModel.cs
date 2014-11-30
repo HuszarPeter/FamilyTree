@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FamilyTree.Dal;
 using FamilyTree.Dal.Model;
 using FamilyTree.Utils;
+using FamilyTree.ViewModel.Extensions;
+using Event = FamilyTree.ViewModel.Model.Event;
 using Person = FamilyTree.ViewModel.Model.Person;
 
 namespace FamilyTree.ViewModel
@@ -19,11 +22,29 @@ namespace FamilyTree.ViewModel
             set
             {
                 _person = value;
+                _events = null;
                 OnPropertyChanged();
+                OnPropertyChanged("Events");
                 NotifyRelationsChanged();
             }
         }
 
+        #region Events
+        private List<Event> _events = null;
+        public List<Event> Events
+        {
+            get { return _events ?? (_events = DowloadEvents()); }
+        }
+
+        private List<Event> DowloadEvents()
+        {
+            using (var context = new DataContext())
+            {
+                return context.GetPersonEvents(Person.ConvertToDalPerson()).Select(e => e.ConvertToModelEvent()).ToList();
+            }
+        }
+        #endregion
+        
         #region Select another person Command
         private ICommand _selectPersonCommand;
         public ICommand SelectPersonCommand
@@ -87,7 +108,9 @@ namespace FamilyTree.ViewModel
         }
 
         #endregion
-        public Func<byte[]> BrowseForPicture { get; set; } 
+
+        #region Browse For Pictures Command
+        public Func<byte[]> BrowseForPicture { get; set; }
         private ICommand _browsePictureCommand;
         public ICommand BrowsePictureCommand
         {
@@ -102,10 +125,12 @@ namespace FamilyTree.ViewModel
         {
             if (BrowseForPicture == null) return;
             var pic = BrowseForPicture();
-            if(pic == null) return;
+            if (pic == null) return;
             Person.Picture = pic;
         }
 
+        #endregion
+        
         public IEnumerable<Person> Childs
         {
             get { return GetRelativesByType(RelationType.Child); }
