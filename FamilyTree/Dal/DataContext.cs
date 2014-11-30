@@ -180,7 +180,7 @@ namespace FamilyTree.Dal
 
         public List<Person> GetAllPersons()
         {
-            return ExecuteQuery<Person>("SELECT * FROM szemely");
+            return ExecuteQuery<Person>("SELECT * FROM szemely ORDER BY keresztnev, vezeteknev");
         }
 
         public void AddPerson(Person person)
@@ -195,8 +195,8 @@ namespace FamilyTree.Dal
 
         public void DeletePerson(Person person)
         {
-            ExecuteNonQuery(string.Format("DELETE FROM kapcsolat WHERE szemely_id1 = {0} OR szemely_id2 = {0}",
-                person.Id));
+            //ExecuteNonQuery(string.Format("DELETE FROM kapcsolat WHERE szemely_id1 = {0} OR szemely_id2 = {0}",
+            //    person.Id));
             ExecuteNonQuery(string.Format("DELETE FROM szemely WHERE szemely_id={0}", person.Id));
         }
 
@@ -347,7 +347,7 @@ namespace FamilyTree.Dal
         public List<Event> GetPersonEvents(Person p)
         {
             const string query =
-                "select distinct e.* from esemeny as e left outer join resztvevo as r on r.esemeny_id = e.esemeny_id where e.szemely_id = ?p or r.resztvevo_id = ?p";
+                "select distinct e.* from esemeny as e left outer join resztvevo as r on r.esemeny_id = e.esemeny_id where e.szemely_id = ?p or r.resztvevo_id = ?p ORDER BY idopont asc";
             var param = new MySqlParameter("?p", p.Id);
             return ExecuteQuery<Event>(query, new List<MySqlParameter> {param});
         }

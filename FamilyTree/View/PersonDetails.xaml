@@ -224,8 +224,22 @@
                 </GroupBox>
 
                 <GroupBox Header="Spouse" Grid.Column="1">
-                    <ItemsControl ItemsSource="{Binding Spouses}"
-                         Style="{StaticResource WrappedRelativeItemsControl}"/>
+                    <Grid utils:GridUtils.Rows="Auto,*">
+                        <ToolBar>
+                            <Button Command="{Binding SetSpouseCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16"
+                                           Height="16"
+                                           Source="/FamilyTree;component/Res/find_user-26.png"/>
+                                    <TextBlock Text="Set spouse"
+                                               Margin="3,1,1,1"/>
+                                </StackPanel>
+                            </Button>
+                        </ToolBar>
+                        <ItemsControl ItemsSource="{Binding Spouses}"
+                                      Grid.Row="1"
+                                      Style="{StaticResource WrappedRelativeItemsControl}"/>
+                    </Grid>
                 </GroupBox>
                 
                 <GroupBox Header="Siblings"

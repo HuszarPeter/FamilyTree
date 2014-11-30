@@ -195,8 +195,31 @@ namespace FamilyTree.ViewModel
             if (selected == null) return;
             LocalDataStorage.Instance.AddNewPersonWithRelation(selected, Person, RelationType.Sibling);
         }
+        #endregion
+
+        #region Set Spouse Command
+        private ICommand _setSpouseCommand;
+        public ICommand SetSpouseCommand
+        {
+            get { return _setSpouseCommand ?? (_setSpouseCommand = new ActionCommand(this, SetSpouseCommandExecute, CanSetSpouseCommandExecute)); }
+        }
+
+        private bool CanSetSpouseCommandExecute(Object param)
+        {
+            return !Spouses.Any();
+        }
+
+        private void SetSpouseCommandExecute(Object param)
+        {
+            if (SelectPersonFunc == null) return;
+            var selected = SelectPersonFunc(p => p != Person && p.IsMale == !Person.IsMale);
+            if (selected == null) return;
+            LocalDataStorage.Instance.AddNewPersonWithRelation(selected, Person, RelationType.Spouse);
+        }
 
         #endregion
+
+
         #region Add Sibling command
         private ICommand _addSiblingCommand;
         public ICommand AddSiblingCommand
