@@ -9,6 +9,7 @@ using FamilyTree.Dal;
 using FamilyTree.Dal.Model;
 using FamilyTree.Utils;
 using FamilyTree.ViewModel.Extensions;
+using FamilyTree.ViewModel.Model;
 using Person = FamilyTree.ViewModel.Model.Person;
 using Relation = FamilyTree.ViewModel.Model.Relation;
 
@@ -74,6 +75,20 @@ namespace FamilyTree.ViewModel
             });
 
             return result1.Union(result2).Distinct().ToList();
+        }
+
+        public List<EventParticipator> DownloadEventPersons(Model.Event evt)
+        {
+            using (var context = new DataContext())
+            {
+                var part = context.GetEventParticipators(evt.Id);
+                var all = part.Select(p => new EventParticipator
+                {
+                    Person = Instance.Persons.FirstOrDefault(x => x.Id == p.PersonId),
+                    IsParticipating = p.IsParticipating > 0
+                }).ToList();
+                return all;
+            }
         }
 
         public void RemoveRelation(Person person, Person person1)

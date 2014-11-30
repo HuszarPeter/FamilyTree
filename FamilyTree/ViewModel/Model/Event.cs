@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FamilyTree.Utils;
@@ -54,11 +55,17 @@ namespace FamilyTree.ViewModel.Model
             }
         }
 
+        public Person Person
+        {
+            get { return LocalDataStorage.Instance.Persons.FirstOrDefault(p => p.Id == PersonId); }
+        }
+
         public virtual string Text
         {
             get { return Description; }
         }
 
+        public List<int> Participators { get; set; }
 
         #region IEditableObject
 
@@ -74,7 +81,8 @@ namespace FamilyTree.ViewModel.Model
                 Date = Date,
                 Description = Description,
                 PersonId = PersonId,
-                Id = Id
+                Id = Id,
+                Participators = Participators != null ? Participators.Select(p => p).ToList() : new List<int>()
             };
         }
 
@@ -91,6 +99,9 @@ namespace FamilyTree.ViewModel.Model
             Date = _cache.Date;
             Description = _cache.Description;
             PersonId = _cache.PersonId;
+            Participators = _cache.Participators != null
+                ? _cache.Participators.Select(p => p).ToList()
+                : new List<int>();
             EndEdit();
         } 
         #endregion

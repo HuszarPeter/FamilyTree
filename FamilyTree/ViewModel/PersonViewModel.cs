@@ -411,6 +411,7 @@ namespace FamilyTree.ViewModel
             {
                 using (var context = new DataContext())
                 {
+                    context.UpdateEventParticipators(SelectedEvent.Id, SelectedEvent.Participators);
                     context.UpdateEvent(SelectedEvent.ConvertBackToDalModel());
 
                     SelectedEvent.EndEdit();

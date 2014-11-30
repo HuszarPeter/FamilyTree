@@ -227,6 +227,22 @@ namespace FamilyTree.Dal
         #endregion
 
         #region Events
+
+        public List<Participation> GetEventParticipators(int evtId)
+        {
+            var qb = new StringBuilder();
+            qb.AppendLine("select szemely.szemely_id, 1 as resztvesz from szemely, resztvevo");
+            qb.AppendLine("where resztvevo.resztvevo_id = szemely.szemely_id");
+            qb.AppendLine("and resztvevo.esemeny_id = ?p");
+            qb.AppendLine("union");
+            qb.AppendLine("select szemely.szemely_id, 0 as resztvesz from szemely");
+            qb.AppendLine("where szemely.szemely_id not in (select resztvevo_id from resztvevo where esemeny_id = ?p)");
+
+            var q = qb.ToString();
+            var p = new MySqlParameter("?p", evtId);
+            return ExecuteQuery<Participation>(q, new List<MySqlParameter>{p});
+        }
+
         public void AddEvent(Event evt)
         {
             Insert(evt);
@@ -350,6 +366,37 @@ namespace FamilyTree.Dal
             return ExecuteQuery<PersonIdAndCounter>(query);
         }
 
-       
+
+        public void UpdateEventParticipators(int eventId, List<int> participators)
+        {
+            var existing = GetEventParticipators(eventId)
+                .Where(p => p.IsParticipating > 0)
+                .Select(p => p.PersonId)
+                .ToList();
+
+            var add = participators.Except(existing).ToList();
+            var del = existing.Except(participators).ToList();
+
+            add.ForEach(a =>
+            {
+                var q = "INSERT INTO resztvevo (resztvevo_id, esemeny_id) VALUES (?p1, ?p2)";
+                var prms = new List<MySqlParameter>
+                {
+                    new MySqlParameter("?p1", a),
+                    new MySqlParameter("?p2", eventId)
+                };
+                ExecuteNonQuery(q, prms);
+            });
+            del.ForEach(d =>
+            {
+                var q = "DELETE FROM resztvevo WHERE resztvevo_id = ?p1 AND esemeny_id = ?p2";
+                var prms = new List<MySqlParameter>
+                {
+                    new MySqlParameter("?p1", d),
+                    new MySqlParameter("?p2", eventId)
+                };
+                ExecuteNonQuery(q, prms);
+            });
+        }
     }
 }

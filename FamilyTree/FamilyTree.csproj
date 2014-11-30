@@ -88,6 +88,7 @@
     <Compile Include="Dal\Model\Event.cs" />
     <Compile Include="Dal\Model\GenderStatistic.cs" />
     <Compile Include="Dal\Model\GeneratedEvent.cs" />
+    <Compile Include="Dal\Model\Participation.cs" />
     <Compile Include="Dal\Model\PersonIdAndCounter.cs" />
     <Compile Include="Dal\Model\PersonWithCount.cs" />
     <Compile Include="Dal\Model\Relation.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="ViewModel\GenderStatisticsViewModel.cs" />
     <Compile Include="ViewModel\LocalDataStorage.cs" />
     <Compile Include="ViewModel\Model\Event.cs" />
+    <Compile Include="ViewModel\Model\EventParticipator.cs" />
     <Compile Include="ViewModel\Model\GeneratedEvent.cs" />
     <Compile Include="ViewModel\Model\Person.cs" />
     <Compile Include="ViewModel\Model\PersonAndCounter.cs" />

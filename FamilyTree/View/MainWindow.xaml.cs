@@ -57,7 +57,13 @@ namespace FamilyTree.View
                 Owner = this
             };
             var r = form.ShowDialog(arg);
-            return r.HasValue && r.Value;
+            var result = r.HasValue && r.Value;
+            arg.Participators = form.Persons
+                .Where(p => p.IsParticipating)
+                .Select(p => p.Person.Id)
+                .ToList();
+
+            return result;
         }
 
         private void ShowTimeline()

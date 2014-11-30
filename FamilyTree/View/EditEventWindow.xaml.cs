@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using FamilyTree.Annotations;
 using FamilyTree.Utils;
+using FamilyTree.ViewModel;
 using FamilyTree.ViewModel.Model;
 
 namespace FamilyTree.View
@@ -37,6 +38,7 @@ namespace FamilyTree.View
 
         #region OK Command
         private ICommand _OkCommand;
+
         public ICommand OkCommand
         {
             get { return _OkCommand ?? (_OkCommand = new ActionCommand(this, OkCommandExecute, CanOkCommandExecute)); }
@@ -55,15 +57,28 @@ namespace FamilyTree.View
         } 
         #endregion
 
+        private List<EventParticipator> _persons;
+        public List<EventParticipator> Persons
+        {
+            get { return _persons; }
+            set
+            {
+                _persons = value;
+                OnPropertyChanged();
+            }
+        }
+
         public EditEventWindow()
         {
             InitializeComponent();
+
         }
 
         public bool? ShowDialog(Event evt)
         {
             Event = evt;
             DataContext = this;
+            Persons = LocalDataStorage.Instance.DownloadEventPersons(Event);
 
             return ShowDialog();
         }

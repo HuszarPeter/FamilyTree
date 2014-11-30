@@ -7,12 +7,22 @@
         MinWidth="300"
         Title="EditEventWindow" Height="300" Width="300" Icon="/FamilyTree;component/Res/deciduous_tree-48.png" ResizeMode="NoResize">
     <Grid utils:GridUtils.Rows="Auto,Auto,*,Auto">
-        <DatePicker Margin="5"
+        <DatePicker Margin="5,5,5,5"
                     SelectedDate="{Binding Event.Date}"/>
         <TextBox Grid.Row="1"
-                 Margin="5"
+                 Margin="5,0,5,5"
                  Height="60"
                  Text="{Binding Event.Description, UpdateSourceTrigger=PropertyChanged}"/>
+        <ListBox Grid.Row="2"
+                 ItemsSource="{Binding Persons}"
+                 Margin="5,0,5,5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Person.FullName}"
+                              IsChecked="{Binding IsParticipating}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Grid.Row="3">
