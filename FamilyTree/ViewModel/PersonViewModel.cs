@@ -176,6 +176,27 @@ namespace FamilyTree.ViewModel
         }
         #endregion
 
+        #region Set Sibling Command
+        private ICommand _SetSiblingCommand;
+        public ICommand SetSiblingCommand
+        {
+            get { return _SetSiblingCommand ?? (_SetSiblingCommand = new ActionCommand(this, SetSiblingCommandExecute, CanSetSiblingCommandExecute)); }
+        }
+
+        private bool CanSetSiblingCommandExecute(Object param)
+        {
+            return true;
+        }
+
+        private void SetSiblingCommandExecute(Object param)
+        {
+            if (SelectPersonFunc == null) return;
+            var selected = SelectPersonFunc(p => p != Person);
+            if (selected == null) return;
+            LocalDataStorage.Instance.AddNewPersonWithRelation(selected, Person, RelationType.Sibling);
+        }
+
+        #endregion
         #region Add Sibling command
         private ICommand _addSiblingCommand;
         public ICommand AddSiblingCommand

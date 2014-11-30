@@ -231,13 +231,22 @@
                 <GroupBox Header="Siblings"
                           Grid.ColumnSpan="2"
                           Grid.Row="1">
-                    <GroupBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Add" />
-                        </ContextMenu>
-                    </GroupBox.ContextMenu>
-                    <ItemsControl ItemsSource="{Binding Siblings}"
-                                  Style="{StaticResource WrappedRelativeItemsControl}"/>
+                    <Grid utils:GridUtils.Rows="Auto,*">
+                        <ToolBar>
+                            <Button Command="{Binding SetSiblingCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16"
+                                           Height="16"
+                                           Source="/FamilyTree;component/Res/find_user-26.png"/>
+                                    <TextBlock Text="Set sibling"
+                                               Margin="3,1,1,1"/>
+                                </StackPanel>
+                            </Button>
+                        </ToolBar>                        
+                        <ItemsControl ItemsSource="{Binding Siblings}"
+                                      Style="{StaticResource WrappedRelativeItemsControl}"
+                                      Grid.Row="1"/>
+                    </Grid>
                 </GroupBox>
 
                 <GroupBox Header="Childs" 
