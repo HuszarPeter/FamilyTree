@@ -62,6 +62,7 @@ namespace FamilyTree.View
                 .Where(p => p.IsParticipating)
                 .Select(p => p.Person.Id)
                 .ToList();
+            arg.Documents = form.EventDocuments.ToList();
 
             return result;
         }
@@ -108,8 +109,10 @@ namespace FamilyTree.View
 
         private void ShowGenderStats()
         {
-            var win = new GeneralStatisticsWindow();
-            win.Owner = this;
+            var win = new GeneralStatisticsWindow
+            {
+                Owner = this
+            };
             win.ShowDialog();
 
         }

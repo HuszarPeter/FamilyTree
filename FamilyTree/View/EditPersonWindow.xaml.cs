@@ -32,7 +32,11 @@ namespace FamilyTree.View
 
         private byte[] OpenPicture()
         {
-            var dlg = new OpenFileDialog();
+            var dlg = new OpenFileDialog()
+            {
+                CheckFileExists = true,
+                Filter = "Pictures (jpg,jpeg,png)|*.jpg;*.png;*.jpeg"
+            };
             var dlgResult = dlg.ShowDialog(this);
             return dlgResult.Value 
                 ? File.ReadAllBytes(dlg.FileName) 

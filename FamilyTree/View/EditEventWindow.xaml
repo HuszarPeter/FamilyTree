@@ -2,30 +2,56 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:utils="clr-namespace:FamilyTree.Utils"
-        SizeToContent="WidthAndHeight"
+        xmlns:model="clr-namespace:FamilyTree.ViewModel.Model"
         WindowStartupLocation="CenterOwner"
         MinWidth="300"
-        Title="EditEventWindow" Height="300" Width="300" Icon="/FamilyTree;component/Res/deciduous_tree-48.png" ResizeMode="NoResize">
-    <Grid utils:GridUtils.Rows="Auto,Auto,*,Auto">
+        Title="EditEventWindow" Height="300" Width="478" Icon="/FamilyTree;component/Res/deciduous_tree-48.png" ResizeMode="NoResize">
+    <Grid utils:GridUtils.Rows="Auto,Auto,*,Auto"
+          utils:GridUtils.Columns="*,*">
         <DatePicker Margin="5,5,5,5"
+                    Grid.ColumnSpan="2"
                     SelectedDate="{Binding Event.Date}"/>
         <TextBox Grid.Row="1"
+                 Grid.ColumnSpan="2"
                  Margin="5,0,5,5"
                  Height="60"
                  Text="{Binding Event.Description, UpdateSourceTrigger=PropertyChanged}"/>
         <ListBox Grid.Row="2"
                  ItemsSource="{Binding Persons}"
-                 Margin="5,0,5,5">
+                 Margin="5,0,5,5"
+                 MaxHeight="150">
             <ListBox.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="model:EventParticipator">
                     <CheckBox Content="{Binding Person.FullName}"
                               IsChecked="{Binding IsParticipating}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Grid Grid.Column="1"
+              Grid.Row="2"
+              Margin="5,0,5,5"
+              utils:GridUtils.Rows="Auto,*">
+            <ToolBar>
+                <Button Command="{Binding AddDocumentCommand}"
+                        Content="Add"/>
+                <Button Command="{Binding DeleteDocumentCommand}"
+                        Content="Delete"/>
+            </ToolBar>
+            <ListBox MaxHeight="150"
+                     Grid.Row="1"
+                     ItemsSource="{Binding EventDocuments}"
+                     SelectedItem="{Binding SelectedDocument}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="model:EventDocument">
+                        <TextBlock Text="{Binding FileName}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
-                    Grid.Row="3">
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2">
             <Button Margin="5" IsDefault="True"
                     MinWidth="60"
                     Command="{Binding OkCommand}"

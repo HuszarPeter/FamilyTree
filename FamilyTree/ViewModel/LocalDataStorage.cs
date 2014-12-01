@@ -91,6 +91,16 @@ namespace FamilyTree.ViewModel
             }
         }
 
+        public List<Model.EventDocument> DownloadEventDocuments(Model.Event evt)
+        {
+            using (var context = new DataContext())
+            {
+                return context.GetEventDocuments(evt.Id)
+                    .Select(d => d.ConvertToviewModelDocument())
+                    .ToList();
+            }
+        }
+
         public void RemoveRelation(Person person, Person person1)
         {
             using (var context = new DataContext())

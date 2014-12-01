@@ -16,7 +16,7 @@
         </Style>
     </Window.Resources>
     <Grid utils:GridUtils.Columns="*,*"
-          utils:GridUtils.Rows="Auto,Auto,*">
+          utils:GridUtils.Rows="Auto,Auto,Auto,*">
         <GroupBox Header="Genders">
             <ItemsControl ItemsSource="{Binding Statistics}"
                           MinWidth="150">
@@ -95,12 +95,35 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid utils:GridUtils.Columns="4*,3*">
+                        <Grid utils:GridUtils.Columns="8*,3*">
                             <TextBlock Grid.Column="0"
                                        Text="{Binding FullName}"
                                        Style="{StaticResource textLabel}"/>
                             <TextBlock Grid.Column="1"
                                        Text="{Binding Count}"
+                                       Style="{StaticResource text}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+        <GroupBox Header="Events with the most uploaded docs"
+                  Grid.Row="3"
+                  Grid.ColumnSpan="2">
+            <ItemsControl ItemsSource="{Binding EvetnsWithDocs}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid utils:GridUtils.Columns="6*,3*">
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding Text}"
+                                       Style="{StaticResource textLabel}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding Count, StringFormat='{}{0}.'}"
                                        Style="{StaticResource text}"/>
                         </Grid>
                     </DataTemplate>

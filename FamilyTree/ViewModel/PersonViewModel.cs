@@ -436,6 +436,7 @@ namespace FamilyTree.ViewModel
                 {
                     context.UpdateEventParticipators(SelectedEvent.Id, SelectedEvent.Participators);
                     context.UpdateEvent(SelectedEvent.ConvertBackToDalModel());
+                    context.UpdateEventDocuments(SelectedEvent.Documents.Select(d => d.ConvertBackToDalModel()), SelectedEvent.Id);
 
                     SelectedEvent.EndEdit();
                     RefreshEvents();

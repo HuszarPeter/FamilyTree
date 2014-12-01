@@ -17,6 +17,7 @@ namespace FamilyTree.ViewModel
         private List<AgeStatistic> _ageStatistics;
         private List<YearStatistics> _eventsByYear;
         private List<PersonWithCount> _mostParticipatingPersons;
+        private List<StringAndCounter> _evetnsWithDocs;
 
         public List<GenderStatistic> Statistics
         {
@@ -58,6 +59,16 @@ namespace FamilyTree.ViewModel
             }
         }
 
+        public List<StringAndCounter> EvetnsWithDocs
+        {
+            get { return _evetnsWithDocs; }
+            set
+            {
+                _evetnsWithDocs = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void DownloadData()
         {
             using (var context = new DataContext())
@@ -67,6 +78,7 @@ namespace FamilyTree.ViewModel
                 EventsByYear = context.GetEventStatsByYear();
                 MostParticipatingPersons = context.GetMostParticipation()
                     .Select(p => p.ConvertToViewPersonWithCount()).ToList();
+                EvetnsWithDocs = context.GetEvetnsWithUploadedDocuments();
             }
         }
     }

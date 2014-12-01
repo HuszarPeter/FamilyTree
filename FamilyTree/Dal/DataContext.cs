@@ -243,6 +243,16 @@ namespace FamilyTree.Dal
             return ExecuteQuery<Participation>(q, new List<MySqlParameter>{p});
         }
 
+        public List<EventDocument> GetEventDocuments(int eventId)
+        {
+            const string q = "SELECT * FROM dokumentum WHERE esemeny_id=?p1";
+            var prms = new List<MySqlParameter>
+            {
+                new MySqlParameter("?p1", eventId)
+            };
+            return ExecuteQuery<EventDocument>(q, prms);
+        }
+
         public void AddEvent(Event evt)
         {
             Insert(evt);
@@ -355,17 +365,23 @@ namespace FamilyTree.Dal
         public List<YearStatistics> GetEventStatsByYear()
         {
             const string query =
-                "select year(idopont) as year, count(*) as count from esemeny as e left outer join resztvevo as r on r.esemeny_id = e.esemeny_id group by year(idopont) order by year(idopont) desc";
+                "select year(idopont) as year, count(*) as count from esemeny as e left outer join resztvevo as r on r.esemeny_id = e.esemeny_id group by year(idopont) order by year(idopont) desc LIMIT 5";
             return ExecuteQuery<YearStatistics>(query);
         }
 
         public List<PersonIdAndCounter> GetMostParticipation()
         {
             const string query =
-                "select cast(szemely_id as signed) as szemely_id, count(*) as count from (select esemeny.szemely_id as szemely_id from esemeny union all select resztvevo.resztvevo_id as szemely_id from resztvevo) as t group by szemely_id order by count(*) desc";
+                "select cast(szemely_id as signed) as szemely_id, count(*) as count from (select esemeny.szemely_id as szemely_id from esemeny union all select resztvevo.resztvevo_id as szemely_id from resztvevo) as t group by szemely_id order by count(*) desc LIMIT 5";
             return ExecuteQuery<PersonIdAndCounter>(query);
         }
 
+        public List<StringAndCounter> GetEvetnsWithUploadedDocuments()
+        {
+            const string q =
+                "select megnevezes, count(*) as count from dokumentum, esemeny where dokumentum.esemeny_id = esemeny.esemeny_id group by esemeny.esemeny_id LIMIT 5";
+            return ExecuteQuery<StringAndCounter>(q);
+        }
 
         public void UpdateEventParticipators(int eventId, List<int> participators)
         {
@@ -397,6 +413,24 @@ namespace FamilyTree.Dal
                 };
                 ExecuteNonQuery(q, prms);
             });
+        }
+
+        public void UpdateEventDocuments(IEnumerable<EventDocument> eventDocuments, int eventId)
+        {
+            var existing = ExecuteQuery<EventDocument>("SELECT * FROM dokumentum WHERE esemeny_id = ?p1",
+                new List<MySqlParameter> {new MySqlParameter("?p1", eventId)});
+
+            var comparer = new EventDocumentComparer();
+            existing.Except(eventDocuments, comparer).ToList()
+                .ForEach(d =>
+                {
+                    var q = "DELETE FROM dokumentum WHERE dokumentum_id = ?p1";
+                    ExecuteNonQuery(q, new List<MySqlParameter> {new MySqlParameter("?p1", d.Id)});
+                });
+
+            // insert new documents
+            eventDocuments.Where(d => d.Id < 0).ForEach(Insert);
+
         }
     }
 }

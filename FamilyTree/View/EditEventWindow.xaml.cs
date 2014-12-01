@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -17,6 +19,7 @@ using FamilyTree.Annotations;
 using FamilyTree.Utils;
 using FamilyTree.ViewModel;
 using FamilyTree.ViewModel.Model;
+using Microsoft.Win32;
 
 namespace FamilyTree.View
 {
@@ -58,6 +61,8 @@ namespace FamilyTree.View
         #endregion
 
         private List<EventParticipator> _persons;
+        private ObservableCollection<EventDocument> _eventDocuments = new ObservableCollection<EventDocument>();
+
         public List<EventParticipator> Persons
         {
             get { return _persons; }
@@ -68,6 +73,81 @@ namespace FamilyTree.View
             }
         }
 
+        public ObservableCollection<EventDocument> EventDocuments
+        {
+            get { return _eventDocuments; }
+            set
+            {
+                _eventDocuments = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public EventDocument SelectedDocument
+        {
+            get { return _selectedDocument; }
+            set
+            {
+                _selectedDocument = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #region Add Document Command
+        private ICommand _addDocumentCommand;
+        private EventDocument _selectedDocument;
+
+        public ICommand AddDocumentCommand
+        {
+            get { return _addDocumentCommand ?? (_addDocumentCommand = new ActionCommand(this, AddDocumentCommandExecute, CanAddDocumentCommandExecute)); }
+        }
+
+        private bool CanAddDocumentCommandExecute(Object param)
+        {
+            return true;
+        }
+
+        private void AddDocumentCommandExecute(Object param)
+        {
+            var dlg = new OpenFileDialog
+            {
+                CheckFileExists = true
+            };
+            var dlgRes = dlg.ShowDialog(this);
+            if (!dlgRes.Value) return;
+            
+            var fi = new FileInfo(dlg.FileName);
+            
+            EventDocuments.Add(new EventDocument
+            {
+                Data = File.ReadAllBytes(dlg.FileName),
+                EventId = Event.Id,
+                FileName = fi.Name,
+                Id = -1,
+                FileType = fi.Extension
+            });
+        } 
+        #endregion
+
+        #region Delete documents command
+        private ICommand _deleteDocumentCommand;
+        public ICommand DeleteDocumentCommand
+        {
+            get { return _deleteDocumentCommand ?? (_deleteDocumentCommand = new ActionCommand(this, DeleteDocumentCommandExecute, CanDeleteDocumentCommandExecute)); }
+        }
+
+        private bool CanDeleteDocumentCommandExecute(Object param)
+        {
+            return SelectedDocument != null;
+        }
+
+        private void DeleteDocumentCommandExecute(Object param)
+        {
+            EventDocuments.Remove(SelectedDocument);
+            SelectedDocument = null;
+        }
+        #endregion
+        
         public EditEventWindow()
         {
             InitializeComponent();
@@ -79,6 +159,8 @@ namespace FamilyTree.View
             Event = evt;
             DataContext = this;
             Persons = LocalDataStorage.Instance.DownloadEventPersons(Event);
+            LocalDataStorage.Instance.DownloadEventDocuments(Event)
+                .ForEach(d => EventDocuments.Add(d));
 
             return ShowDialog();
         }

@@ -66,6 +66,7 @@ namespace FamilyTree.ViewModel.Model
         }
 
         public List<int> Participators { get; set; }
+        public List<EventDocument> Documents { get; set; } 
 
         #region IEditableObject
 
@@ -82,7 +83,8 @@ namespace FamilyTree.ViewModel.Model
                 Description = Description,
                 PersonId = PersonId,
                 Id = Id,
-                Participators = Participators != null ? Participators.Select(p => p).ToList() : new List<int>()
+                Participators = Participators != null ? Participators.Select(p => p).ToList() : new List<int>(),
+                Documents = Documents
             };
         }
 
@@ -102,6 +104,7 @@ namespace FamilyTree.ViewModel.Model
             Participators = _cache.Participators != null
                 ? _cache.Participators.Select(p => p).ToList()
                 : new List<int>();
+            Documents = _cache.Documents;
             EndEdit();
         } 
         #endregion
